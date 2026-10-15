@@ -32,14 +32,20 @@ de Wang et al. (2016), sacado de libros de texto y corregido por expertos.
 | Geometry | 89 | 1 681 | 524 |
 | Physics | 153 | 1 962 | 487 |
 | Precalculus | 224 | 2 060 | 699 |
-| **Total** | 586 | 6 529 | 2 002 |
+| **Total** | 586 (545 únicos) | 6 529 | 2 002 |
 
 - Formato: `<dominio>.pairs` (todos los pares) y `<dominio>.preqs` (positivos), CSV sin encabezado,
   títulos de la Wikipedia en inglés. En (A, B), **B es prerrequisito de A**.
 - **Expansión deliberada de los autores:** si (A, B) es positivo se agregó (B, A) como negativo, y se
   agregó el cierre transitivo. Una partición aleatoria de pares filtra la respuesta (el par invertido
   está en train). → partición por dominio (§4.1).
-- `download.py` fija el commit del repo y el SHA-256 de cada archivo.
+- **40 conceptos aparecen en más de un dominio** (545 únicos). Dejar un dominio fuera no basta: al
+  evaluar el dominio D se quitan de entrenamiento todos los pares que tocan un concepto de D.
+- `download.py` fija el commit `11397eaa3ea01c5e06fefcfc1c02a84f21164081` y el SHA-256 de cada archivo.
+- **Verificado (2026-10-15):** 39 conceptos sin página ES y 1 sin página EN; se conservan 6 067 de
+  6 529 pares (93 %) y 1 866 de 2 002 positivos. 9 colisiones (dos conceptos EN → la misma página ES,
+  p. ej. `Null_hypothesis` y `Statistical_hypothesis_testing` → «Contraste de hipótesis»): los pares
+  entre conceptos que colisionan se descartan y se reporta el conteo.
 
 ### 2.2 Wikipedia (es y en)
 
@@ -52,11 +58,18 @@ enlaces salientes de la página (`links`, espacio de nombres 0), equivalencia en
 - Enlaces entrantes (necesarios para RefD) solo dentro del conjunto de conceptos del dominio: se
   derivan de los salientes de cada concepto, no de `backlinks` (que devuelve toda Wikipedia).
 
-### 2.3 OpenAlex (lecturas)
+### 2.3 OpenAlex (lecturas y su evaluación)
 
 API `api.openalex.org`, clave gratuita en `OPENALEX_API_KEY` (1 USD/día; sin clave, 0,10 USD/día
 compartido por IP). Campos: `id`, `title`, `type`, `publication_year`, `language`, `cited_by_count`,
-`referenced_works`, `abstract_inverted_index` (se reconstruye a texto). Paginación por cursor.
+`referenced_works`, `abstract_inverted_index` (se reconstruye a texto), `primary_topic`. Paginación
+por cursor. Unos 4 516 temas de investigación con id (`/topics`).
+
+**Verificado (2026-10-15):** solo ~44 % de los resultados trae resumen (las editoriales retiraron
+muchos); el resto se representa solo con el título. Las revisiones por título de concepto AL-CPL no
+sirven (10 de 32 conceptos tienen alguna y casi todas son de otro dominio: *fuzzy clustering* →
+resonancia cerebral); por temas sí: los temas probados tienen 4–135 revisiones con ≥ 20 referencias y
+miles de trabajos previos.
 
 ### 2.4 Caché
 
@@ -100,7 +113,8 @@ clasificador introductorio), `claude-haiku-5-5` (juez LLM). Entrenamiento en MPS
 
 ### 4.1 Capa 1 · prerrequisitos
 
-- **Partición:** dejar un dominio fuera (4 rondas). Hiperparámetros y umbrales se eligen con los 3
+- **Partición:** dejar un dominio fuera (4 rondas), quitando de entrenamiento los pares que tocan
+  conceptos del dominio de test (§2.1). Hiperparámetros y umbrales se eligen con los 3
   dominios de entrenamiento (validación: uno de ellos rotando). Las predicciones de las 4 rondas se
   juntan para las métricas globales.
 - **Texto de un concepto:** título + resumen inicial de Wikipedia, truncado a 256 tokens por concepto.
@@ -115,29 +129,33 @@ clasificador introductorio), `claude-haiku-5-5` (juez LLM). Entrenamiento en MPS
 | Juez LLM | Claude Haiku, zero-shot, mismos resúmenes en ES, salida estructurada (sí/no + razón). Respuesta no interpretable = «no»; se reporta el conteo |
 | Cross-encoder en inglés | igual, con resúmenes de la Wikipedia en inglés, sobre los mismos pares |
 
-### 4.2 Capa 2 · lecturas
+### 4.2 Capa 2 · lecturas (temas de OpenAlex)
 
-- **Conceptos evaluados:** los de AL-CPL con página ES que tengan una revisión en OpenAlex
-  (`type:review`, título que contiene el nombre del concepto en inglés o español, ≥ 20 referencias,
-  publicada 2010–2024). Se toma la más citada. Se reporta cuántos conceptos califican.
-- **Referencia:** los `referenced_works` de esa revisión.
-- **Candidatos:** búsqueda del concepto en OpenAlex (en y es), máximo 200, **publicados antes del
-  año de la revisión**, sin la revisión misma.
-- **Métricas:** recall@20 y NDCG@20. Se reporta también el **techo**: fracción de referencias que
-  aparece entre los candidatos.
-- **Órdenes comparados:** relevancia por defecto de OpenAlex; más citados; BM25; denso (e5);
-  **combinado** (`start_here_score`: suma con pesos iguales de relevancia densa, probabilidad
-  «introductorio» y log(1 + citas), cada una estandarizada dentro de los candidatos del concepto;
-  fijado antes de ver test).
-- **Clasificador introductorio:** XLM-R sobre resúmenes; etiqueta débil `review` (1) frente a
-  `article` (0) en OpenAlex, balanceada, de los temas de los 4 dominios, **excluyendo las revisiones
-  de referencia y sus referencias**. Se valida además con 100 resúmenes etiquetados por Claude durante la implementación con un
-  criterio escrito en el README («¿sirve para empezar?»), auditable por el usuario.
+La capa 2 no se evalúa sobre conceptos de AL-CPL (nivel de libro de texto, sin revisiones propias)
+sino sobre **temas de investigación de OpenAlex**; decisión del usuario el 2026-10-15.
+
+- **Temas evaluados:** de los campos de OpenAlex Computer Science (17), Mathematics (26), Physics and
+  Astronomy (31) y Agricultural and Biological Sciences (11), se barajan los temas con semilla 42 y
+  se toman, por campo, los primeros 15 que tengan una revisión válida → hasta 60 temas.
+- **Revisión de referencia:** `type:review`, `primary_topic.id` = el tema, publicada 2010–2024,
+  ≥ 20 referencias; la más citada. Sus `referenced_works` son la lista de referencia.
+- **Candidatos:** búsqueda por el nombre del tema, filtrada a ese `primary_topic.id`, **publicados
+  antes del año de la revisión**, sin la revisión misma; los 200 primeros por relevancia de OpenAlex.
+- **Métricas:** recall@20 y NDCG@20. Se reporta también el **techo** (fracción de referencias que
+  está entre los candidatos) y la fracción de candidatos con resumen.
+- **Órdenes comparados:** relevancia por defecto de OpenAlex; más citados; BM25 (título + resumen);
+  denso (e5, título + resumen); **combinado** (`start_here_score`: suma con pesos iguales de
+  relevancia densa, probabilidad «introductorio» y log(1 + citas), cada una estandarizada dentro de
+  los candidatos del tema; fijado antes de ver test).
+- **Clasificador introductorio:** XLM-R sobre título + resumen; etiqueta débil `review` (1) frente a
+  `article` (0), balanceada, de **otros temas** de los mismos 4 campos (ningún tema evaluado aporta
+  ejemplos). Se valida además con 100 resúmenes etiquetados por Claude durante la implementación con
+  un criterio escrito en el README («¿sirve para empezar?»), auditable por el usuario.
 
 ### 4.3 Hipótesis (antes de ver test)
 
 Bootstrap por conglomerados con 2 000 réplicas: en H1–H3 el conglomerado es el concepto objetivo
-(primera columna del par); en H4, el concepto evaluado. IC 95 %, corrección de Holm sobre las cuatro.
+(primera columna del par); en H4, el tema evaluado. IC 95 %, corrección de Holm sobre las cuatro.
 «Se apoya» = se rechaza H0 **y** la diferencia va en la dirección prevista.
 
 | | Hipótesis |
