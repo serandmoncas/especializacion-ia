@@ -373,11 +373,10 @@ def part_b_and_new(books, desc, labels, ratings, text_model_factory, cfg, rng, m
     )
 
 
-def validate_labels(books, labels, data_dir, rng, n=300):
+def validate_labels(books, labels, data_dir, seed=42, n=300):
+    # Semilla propia: con el `rng` compartido, la muestra cambiaba si la Parte B consumía más azar.
     try:
-        sample = books[books.isbn.str.len() >= 9].sample(
-            n=min(n, len(books)), random_state=int(rng.integers(1e9))
-        )
+        sample = books[books.isbn.str.len() >= 9].sample(n=min(n, len(books)), random_state=seed)
         subjects = fetch_subjects(sample.isbn.tolist(), Path(data_dir) / "openlibrary_cache.json")
         ol = {
             int(b): subjects_to_topics(subjects[i])
@@ -452,7 +451,7 @@ def run(
         "hipotesis": hyp,
         "validacion_etiquetas": "omitida (smoke)"
         if smoke
-        else validate_labels(books, labels, data_dir, rng),
+        else validate_labels(books, labels, data_dir, seed),
     }
     (out_dir / "metrics.json").write_text(
         json.dumps(report, indent=2, ensure_ascii=False, default=str)
