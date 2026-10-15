@@ -48,7 +48,7 @@ from book_topics.recommend import (
     topic_scores_with_tiebreak,
     user_topic_profiles,
 )
-from book_topics.splits import author_split, new_books_holdout, user_split
+from book_topics.splits import author_split, new_books_holdout, usable_books, user_split
 from book_topics.taxonomy import TAU, label_books, load_taxonomy, topic_matrix
 from scipy import sparse
 from scipy.stats import spearmanr
@@ -79,12 +79,7 @@ def _eval_ndcg(score_fn, users, exclude, relevant, n_items):
 
 def part_a(books, desc, labels, ratings, cfg, rng):
     keys = list(labels.columns)
-    has_text = (
-        desc.reindex(books.book_id).fillna("").str.split().str.len().fillna(0).to_numpy()
-        >= cfg["min_words"]
-    )
-    labeled = labels.reindex(books.book_id, fill_value=False).any(axis=1).to_numpy()
-    usable = books[has_text & labeled]
+    usable = usable_books(books, desc, labels, cfg["min_words"])
     parts = author_split(usable, seed=cfg["seed"])
     texts = book_text(books.set_index("book_id")["title"], desc)
     Y = {k: topic_matrix(labels, v).astype(bool) for k, v in parts.items()}

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from book_topics.data import load_books, load_ratings
-from book_topics.splits import author_split, new_books_holdout, user_split
+from book_topics.splits import author_split, new_books_holdout, usable_books, user_split
 
 
 def _many_books(n_authors=60, per_author=5):
@@ -42,3 +42,10 @@ def test_user_split_uses_order_and_keeps_train(tiny_catalog):
 
 def test_author_split_tiny(tiny_catalog):
     assert sum(len(v) for v in author_split(load_books(tiny_catalog), seed=0).values()) == 6
+
+
+def test_usable_books_requires_min_words_and_a_topic():
+    books = pd.DataFrame({"book_id": [1, 2, 3, 4], "main_author": list("abcd")})
+    desc = pd.Series({1: "one two three", 2: "one", 3: "one two three"})
+    labels = pd.DataFrame({"x": [True, True, False, True]}, index=[1, 2, 3, 4])
+    assert usable_books(books, desc, labels, min_words=3).book_id.tolist() == [1]

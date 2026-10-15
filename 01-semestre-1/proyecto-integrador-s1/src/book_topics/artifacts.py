@@ -13,7 +13,7 @@ import pandas as pd
 
 from book_topics.classify import TextTopicModel, apply_thresholds, book_text, fit_thresholds
 from book_topics.data import load_books, load_descriptions, load_ratings, load_shelves
-from book_topics.splits import author_split
+from book_topics.splits import author_split, usable_books
 from book_topics.taxonomy import TAU, Topic, label_books, load_taxonomy, topic_matrix
 
 
@@ -27,6 +27,7 @@ class Bundle:
     thresholds: np.ndarray
     T: np.ndarray
     popularity: np.ndarray
+    test_ids: np.ndarray  # libros fuera del entrenamiento: los mismos de test que en run.py
 
 
 def train_bundle(
@@ -36,15 +37,14 @@ def train_bundle(
     min_df: int = 2,
     calibration_cv: int = 3,
     tau: float = TAU,
+    min_words: int = 20,
 ) -> Bundle:
     """Modelo de producción: entrena con train+val de la partición por autor; umbrales con val."""
     books = load_books(data_dir)
     desc = load_descriptions(data_dir)
     topics = load_taxonomy(taxonomy_path)
     labels = label_books(load_shelves(data_dir), topics, tau)
-    has_text = desc.reindex(books.book_id).fillna("").str.len().to_numpy() > 0
-    labeled = labels.reindex(books.book_id, fill_value=False).any(axis=1).to_numpy()
-    parts = author_split(books[has_text & labeled], seed=42)
+    parts = author_split(usable_books(books, desc, labels, min_words), seed=42)
     texts = book_text(books.set_index("book_id")["title"], desc)
     val_ids = parts["val"] if len(parts["val"]) else parts["train"]
     fit_ids = np.r_[parts["train"], parts["val"]]
@@ -70,6 +70,7 @@ def train_bundle(
         thresholds,
         topic_matrix(labels, books.book_id.to_numpy()),
         pop,
+        parts["test"],
     )
 
 

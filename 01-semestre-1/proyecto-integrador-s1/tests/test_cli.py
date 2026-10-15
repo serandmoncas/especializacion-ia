@@ -7,7 +7,8 @@ from book_topics.cli import find_book, main, normalize
 @pytest.fixture
 def bundle_path(medium_catalog, taxonomy_file, tmp_path):
     path = tmp_path / "m.joblib"
-    save_bundle(train_bundle(medium_catalog, taxonomy_file, min_df=1, calibration_cv=2), path)
+    bundle = train_bundle(medium_catalog, taxonomy_file, min_df=1, calibration_cv=2, min_words=1)
+    save_bundle(bundle, path)
     return path
 
 

@@ -5,6 +5,19 @@ import pandas as pd
 from sklearn.model_selection import GroupShuffleSplit
 
 
+def usable_books(
+    books: pd.DataFrame, descriptions: pd.Series, labels: pd.DataFrame, min_words: int = 20
+) -> pd.DataFrame:
+    """Libros con descripción de al menos `min_words` palabras y al menos un tema.
+
+    run.py y el bundle de la CLI deben usar el mismo filtro: author_split reparte los autores según
+    el conjunto que recibe, y con otro conjunto los libros de test terminan en train.
+    """
+    n_words = descriptions.reindex(books["book_id"]).fillna("").str.split().str.len().to_numpy()
+    labeled = labels.reindex(books["book_id"], fill_value=False).any(axis=1).to_numpy()
+    return books[(n_words >= min_words) & labeled]
+
+
 def author_split(books: pd.DataFrame, seed: int = 42) -> dict[str, np.ndarray]:
     """70/10/20 con todos los libros de un autor del mismo lado.
 
