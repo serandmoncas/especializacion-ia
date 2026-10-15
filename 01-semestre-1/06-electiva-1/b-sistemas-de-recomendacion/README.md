@@ -71,4 +71,4 @@ comparar con los gustos *reales*, algo imposible con datos de verdad.
 - [x] Ejercicios con soluciones en carpeta aparte (5; soluciones verificadas por tests)
 - [x] Mini-proyecto con README, código y resultados (diversificación: tu turno)
 - [x] Tests de las funciones en `src/`
-- [ ] CI en verde
+- [x] CI en verde

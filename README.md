@@ -54,7 +54,7 @@ Leyenda: ✅ terminado · 🚧 en curso · ⬜ por iniciar. Detalle por módulo 
 | S1 | [Aprendizaje automático](01-semestre-1/04-aprendizaje-automatico) | 2 | Compartida | Pipeline completo sobre UCI Adult | ✅ |
 | S1 | [Aprendizaje profundo](01-semestre-1/05-aprendizaje-profundo) | 2 | Compartida | CNN en Fashion-MNIST vs. baselines | ✅ |
 | S1 | [Electiva 1 · Series de tiempo](01-semestre-1/06-electiva-1/a-series-de-tiempo) | 2 | Electiva | Pronóstico de demanda con backtesting | ✅ |
-| S1 | [Electiva 1 · Sistemas de recomendación](01-semestre-1/06-electiva-1/b-sistemas-de-recomendacion) | (2) | Electiva | Recomendador de películas (MovieLens 1M) | 🚧 (falta CI en verde) |
+| S1 | [Electiva 1 · Sistemas de recomendación](01-semestre-1/06-electiva-1/b-sistemas-de-recomendacion) | (2) | Electiva | Recomendador de películas (MovieLens 1M) | ✅ |
 | S1 | [Proyecto integrador S1](01-semestre-1/proyecto-integrador-s1) | — | — | Predictivo tabular end-to-end | ⬜ |
 | S2 | [Visión por computador](02-semestre-2/01-vision-por-computador) | 2 | Propia | Transfer learning | ⬜ |
 | S2 | [PLN](02-semestre-2/02-pln) | 2 | Propia | Clasificador de texto en español | ⬜ |
