@@ -59,6 +59,7 @@ packages = [
     "01-semestre-1/06-electiva-1/b-sistemas-de-recomendacion/src/applied_recsys",
     "01-semestre-1/proyecto-integrador-s1/src/book_topics",
     "02-semestre-2/01-vision-por-computador/src/applied_cv",
+    "02-semestre-2/02-pln/src/research_paths",
 ]
 
 [tool.uv]

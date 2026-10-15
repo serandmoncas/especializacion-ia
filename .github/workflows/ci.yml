@@ -15,8 +15,8 @@ jobs:
         with:
           enable-cache: true
 
-      - name: Instalar dependencias (extras base y dl, grupo dev)
-        run: uv sync --locked --extra base --extra dl  # torch solo-CPU en Linux (ver pyproject)
+      - name: Instalar dependencias (extras base, dl y nlp, grupo dev)
+        run: uv sync --locked --extra base --extra dl --extra nlp  # torch solo-CPU en Linux
 
       - name: Lint
         run: uv run ruff check
