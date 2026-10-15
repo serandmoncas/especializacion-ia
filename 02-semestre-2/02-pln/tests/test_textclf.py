@@ -67,7 +67,7 @@ def test_single_text_mode_and_probabilities_in_range(data):
 
 
 def test_save_and_load_give_identical_predictions(data, tmp_path):
-    (a, b, y), (va, vb, _) = data
+    (a, b, _), (va, vb, _) = data
     model, tok = tiny_model(a + b)
     before = predict_proba(model, tok, va, vb, max_length=64)
     save_classifier(model, tok, tmp_path / "m")

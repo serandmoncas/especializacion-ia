@@ -131,7 +131,7 @@ def train_classifier(
     device: str = "cpu",
     log=print,
 ):
-    """AdamW + calentamiento lineal, pérdida con pesos por clase; devuelve la mejor época (AP val)."""
+    """AdamW + calentamiento lineal y pesos por clase; devuelve la mejor época (AP en val)."""
     from transformers import get_linear_schedule_with_warmup
 
     torch.manual_seed(cfg.seed)
