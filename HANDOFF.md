@@ -169,5 +169,7 @@ Proyectos integradores:
 ## 9. Decisiones abiertas
 
 - Electivas 1 y 2: ¿qué temas? (opciones: series de tiempo, aprendizaje por refuerzo, IA en el borde/IoT, sistemas de recomendación).
+  **Decidido (2026-10-15): las cuatro.** Electiva 1 = series de tiempo + sistemas de recomendación;
+  Electiva 2 = aprendizaje por refuerzo + IA en el borde. Cada electiva tiene dos sub-módulos.
 - ¿Repo público o privado?
 - ¿Uso personal o base para un curso para otras personas?

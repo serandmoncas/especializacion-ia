@@ -1,4 +1,4 @@
-"""Descarga de datos del módulo Electiva 2. Por implementar."""
+"""Descarga de datos del sub-módulo Aprendizaje por refuerzo. Por implementar."""
 
 
 def main() -> None:

@@ -22,14 +22,14 @@ flowchart LR
         B[Estadística aplicada] --> D
         C[Fundamentos de IA]
         D --> E[Aprendizaje profundo]
-        F[Electiva 1]
+        F[Electiva 1: series de tiempo + recomendación]
     end
     subgraph S2[Semestre 2 · aplicación]
         G[Visión por computador]
         H[PLN] --> I[IA Generativa]
         J[MLOps]
         K[Ética e integridad]
-        L[Electiva 2]
+        L[Electiva 2: refuerzo + IA en el borde]
     end
     P --> S1
     E --> G & H
@@ -52,15 +52,17 @@ Leyenda: ✅ terminado · 🚧 en curso · ⬜ por iniciar. Detalle por módulo 
 | S1 | [Estadística aplicada](01-semestre-1/02-estadistica-aplicada) | 2 | Compartida | A/B/C test de email (Hillstrom) | ✅ |
 | S1 | [Fundamentos de IA](01-semestre-1/03-fundamentos-ia) | 2 | Núcleo | Pathfinding A*/ALT en mapas reales | ✅ |
 | S1 | [Aprendizaje automático](01-semestre-1/04-aprendizaje-automatico) | 2 | Compartida | Pipeline completo sobre UCI Adult | ✅ |
-| S1 | [Aprendizaje profundo](01-semestre-1/05-aprendizaje-profundo) | 2 | Compartida | CNN en Fashion-MNIST vs. baselines | 🚧 (falta CI en verde) |
-| S1 | [Electiva 1](01-semestre-1/06-electiva-1) | 2 | Electiva | Por decidir | ⬜ |
+| S1 | [Aprendizaje profundo](01-semestre-1/05-aprendizaje-profundo) | 2 | Compartida | CNN en Fashion-MNIST vs. baselines | ✅ |
+| S1 | [Electiva 1 · Series de tiempo](01-semestre-1/06-electiva-1/a-series-de-tiempo) | 2 | Electiva | Pronóstico de demanda con backtesting | 🚧 (falta CI en verde) |
+| S1 | [Electiva 1 · Sistemas de recomendación](01-semestre-1/06-electiva-1/b-sistemas-de-recomendacion) | (2) | Electiva | Recomendador de películas | ⬜ |
 | S1 | [Proyecto integrador S1](01-semestre-1/proyecto-integrador-s1) | — | — | Predictivo tabular end-to-end | ⬜ |
 | S2 | [Visión por computador](02-semestre-2/01-vision-por-computador) | 2 | Propia | Transfer learning | ⬜ |
 | S2 | [PLN](02-semestre-2/02-pln) | 2 | Propia | Clasificador de texto en español | ⬜ |
 | S2 | [IA Generativa](02-semestre-2/03-ia-generativa) | 2 | Propia | RAG con evaluación | ⬜ |
 | S2 | [MLOps](02-semestre-2/04-mlops) | 2 | Compartida | FastAPI + Docker + MLflow + CI | ⬜ |
 | S2 | [Ética e integridad de datos](02-semestre-2/05-etica-e-integridad-datos) | 2 | Propia | Auditoría de sesgo | ⬜ |
-| S2 | [Electiva 2](02-semestre-2/06-electiva-2) | 2 | Electiva | Por decidir | ⬜ |
+| S2 | [Electiva 2 · Aprendizaje por refuerzo](02-semestre-2/06-electiva-2/a-aprendizaje-por-refuerzo) | 2 | Electiva | Agente de control | ⬜ |
+| S2 | [Electiva 2 · IA en el borde](02-semestre-2/06-electiva-2/b-ia-en-el-borde) | (2) | Electiva | Compresión y latencia de un modelo | ⬜ |
 | S2 | [Proyecto integrador S2](02-semestre-2/proyecto-integrador-s2) | — | — | App de IA desplegada | ⬜ |
 
 ## Puesta en marcha

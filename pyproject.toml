@@ -14,6 +14,7 @@ base = [
     "scipy>=1.14",
     "matplotlib>=3.9",
     "scikit-learn>=1.5",
+    "statsmodels>=0.14",  # referencia para series de tiempo (ACF, ETS, ARIMA, ADF)
 ]
 # Deep learning y visión.
 dl = ["torch>=2.5", "torchvision>=0.20"]
@@ -51,6 +52,7 @@ packages = [
     "01-semestre-1/03-fundamentos-ia/src/ai_foundations",
     "01-semestre-1/04-aprendizaje-automatico/src/applied_ml",
     "01-semestre-1/05-aprendizaje-profundo/src/applied_dl",
+    "01-semestre-1/06-electiva-1/a-series-de-tiempo/src/applied_ts",
 ]
 
 [tool.uv]

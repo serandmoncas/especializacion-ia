@@ -67,4 +67,4 @@ con soporte MPS. Ver `[tool.uv.sources]` en `pyproject.toml`.
 - [x] Ejercicios con soluciones en carpeta aparte (5; soluciones verificadas contra torch)
 - [x] Mini-proyecto con README, código y resultados (aumentación: tu turno)
 - [x] Tests de las funciones en `src/`
-- [ ] CI en verde
+- [x] CI en verde
