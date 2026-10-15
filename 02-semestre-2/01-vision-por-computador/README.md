@@ -79,4 +79,4 @@ Los notebooks usan datos sintéticos y corren en segundos en CPU. El proyecto ne
 - [x] Ejercicios con soluciones en carpeta aparte (6; verificadas contra torch, torchvision y skimage)
 - [x] Mini-proyecto con README, código y resultados (aumentación: tu turno)
 - [x] Tests de las funciones en `src/`
-- [ ] CI en verde
+- [x] CI en verde
