@@ -1,6 +1,6 @@
 # Proyecto integrador S1 · Temas de libros como puente para recomendar
 
-> **Estado: completo** (falta CI en verde para marcarlo ✅)
+> **Estado: completo** ✅
 
 Dos preguntas, un mismo puente:
 
