@@ -1,4 +1,4 @@
-"""Atención propia contra `torch.nn.functional.scaled_dot_product_attention` y `MultiheadAttention`."""
+"""Atención propia contra `scaled_dot_product_attention` y `MultiheadAttention` de torch."""
 
 import numpy as np
 import pytest
