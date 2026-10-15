@@ -1,4 +1,4 @@
-"""U-Net pequeña (Ronneberger et al., 2015) para segmentación: codificador, decodificador y saltos."""
+"""U-Net pequeña (Ronneberger et al., 2015): codificador, decodificador y conexiones de salto."""
 
 import torch
 from torch import nn
@@ -17,7 +17,7 @@ def _double_conv(c_in: int, c_out: int) -> nn.Sequential:
 
 class UNet(nn.Module):
     """Dos niveles de reducción. Las conexiones de salto devuelven al decodificador el detalle
-    espacial que el codificador perdió al reducir: por eso los bordes de la máscara salen nítidos."""
+    espacial que el codificador perdió al reducir: así los bordes de la máscara salen nítidos."""
 
     def __init__(self, in_channels: int = 3, n_classes: int = 2, base: int = 8):
         super().__init__()

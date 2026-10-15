@@ -75,6 +75,7 @@ select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "NPY", "RUF"]
 ignore = [
     "N803", # nombres matemáticos en mayúscula (X, A) son convención
     "N806",
+    "N812", # `import torch.nn.functional as F` es la convención de PyTorch
     "RUF001", # el texto en español usa caracteres ambiguos legítimos (´, –)
     "RUF002",
     "RUF003",
