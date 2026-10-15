@@ -50,6 +50,7 @@ packages = [
     "01-semestre-1/02-estadistica-aplicada/src/applied_stats",
     "01-semestre-1/03-fundamentos-ia/src/ai_foundations",
     "01-semestre-1/04-aprendizaje-automatico/src/applied_ml",
+    "01-semestre-1/05-aprendizaje-profundo/src/applied_dl",
 ]
 
 [tool.uv]
@@ -71,8 +72,19 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"*.ipynb" = ["E402", "B018"]
+"*.ipynb" = ["E402", "B018", "N816"]  # notación matemática (dL_dw) en notebooks
 
 [tool.pytest.ini_options]
 testpaths = ["tests", "00-preparatorio", "01-semestre-1", "02-semestre-2"]
 addopts = "-ra --import-mode=importlib"
+
+# PyTorch: en Linux (CI) usar ruedas solo-CPU (~200 MB en vez de ~2.5 GB con CUDA).
+# En macOS se usa PyPI, que incluye soporte MPS (GPU de Apple Silicon).
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+torchvision = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]

@@ -67,4 +67,4 @@ uv run pytest 01-semestre-1/04-aprendizaje-automatico
 - [x] Ejercicios con soluciones en carpeta aparte (5; soluciones verificadas por tests)
 - [x] Mini-proyecto con README, código y resultados (ingeniería de features: tu turno)
 - [x] Tests de las funciones en `src/`
-- [ ] CI en verde
+- [x] CI en verde

@@ -1,0 +1,118 @@
+{
+  "device": "mps",
+  "best": "cnn",
+  "test": {
+    "hgb_pixeles": {
+      "accuracy": 0.8927,
+      "ic95_wilson": [
+        0.8864825177547974,
+        0.8986158899248732
+      ],
+      "seconds": 58.08427799999481,
+      "params": null
+    },
+    "mlp_desde_cero": {
+      "accuracy": 0.8794,
+      "ic95_wilson": [
+        0.8728710189019848,
+        0.8856376031343458
+      ],
+      "seconds": 4.314711624989286,
+      "params": 203530
+    },
+    "lineal": {
+      "accuracy": 0.8455,
+      "ic95_wilson": [
+        0.8382835998222111,
+        0.8524510573036514
+      ],
+      "seconds": 13.99687633299618,
+      "params": 7850,
+      "epochs_run": 20,
+      "best_epoch": 18
+    },
+    "mlp_torch": {
+      "accuracy": 0.8958,
+      "ic95_wilson": [
+        0.8896591559521716,
+        0.9016368709376008
+      ],
+      "seconds": 29.509333916998003,
+      "params": 535818,
+      "epochs_run": 18,
+      "best_epoch": 12
+    },
+    "cnn": {
+      "accuracy": 0.9352,
+      "ic95_wilson": [
+        0.9302060218135498,
+        0.9398597460046133
+      ],
+      "seconds": 139.535808790999,
+      "params": 468202,
+      "epochs_run": 18,
+      "best_epoch": 12
+    }
+  },
+  "mcnemar": {
+    "cnn_vs_hgb_pixeles": {
+      "solo_a_acierta": 593,
+      "solo_b_acierta": 168,
+      "p_valor": 2.3099005102131307e-56
+    },
+    "cnn_vs_mlp_desde_cero": {
+      "solo_a_acierta": 714,
+      "solo_b_acierta": 156,
+      "p_valor": 5.920691267997386e-86
+    },
+    "cnn_vs_lineal": {
+      "solo_a_acierta": 1045,
+      "solo_b_acierta": 148,
+      "p_valor": 1.0952021324127016e-166
+    },
+    "cnn_vs_mlp_torch": {
+      "solo_a_acierta": 575,
+      "solo_b_acierta": 181,
+      "p_valor": 1.3503702016992404e-48
+    }
+  },
+  "per_class_recall_best": {
+    "camiseta": 0.911,
+    "pantalón": 0.987,
+    "suéter": 0.91,
+    "vestido": 0.932,
+    "abrigo": 0.927,
+    "sandalia": 0.992,
+    "camisa": 0.764,
+    "tenis": 0.982,
+    "bolso": 0.99,
+    "botín": 0.957
+  },
+  "most_confused_pairs_best": [
+    [
+      169,
+      "camiseta",
+      "camisa"
+    ],
+    [
+      89,
+      "abrigo",
+      "camisa"
+    ],
+    [
+      69,
+      "suéter",
+      "camisa"
+    ],
+    [
+      59,
+      "suéter",
+      "abrigo"
+    ],
+    [
+      47,
+      "vestido",
+      "camisa"
+    ]
+  ]
+}
