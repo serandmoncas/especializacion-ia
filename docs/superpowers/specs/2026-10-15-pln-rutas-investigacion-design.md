@@ -114,10 +114,12 @@ clasificador introductorio), `claude-haiku-5-5` (juez LLM). Entrenamiento en MPS
 ### 4.1 Capa 1 · prerrequisitos
 
 - **Partición:** dejar un dominio fuera (4 rondas), quitando de entrenamiento los pares que tocan
-  conceptos del dominio de test (§2.1). Hiperparámetros y umbrales se eligen con los 3
-  dominios de entrenamiento (validación: uno de ellos rotando). Las predicciones de las 4 rondas se
+  conceptos del dominio de test (§2.1). En cada ronda: test = dominio i, validación = dominio i+1
+  (umbral y época), entrenamiento = los otros 2; de validación se quitan los pares que tocan
+  conceptos de test y de entrenamiento los que tocan conceptos de validación o test. Las predicciones de las 4 rondas se
   juntan para las métricas globales.
-- **Texto de un concepto:** título + resumen inicial de Wikipedia, truncado a 256 tokens por concepto.
+- **Texto de un concepto:** título + resumen inicial de Wikipedia; el par se trunca a 256 tokens
+  (`longest_first`). Medido en un M4: XLM-R base a 256 tokens = 1,2 s por lote de 16 en MPS.
 - **Métricas:** F1 de la clase positiva y PR-AUC, globales y por dominio.
 
 | Modelo | Detalle |
@@ -211,5 +213,5 @@ se evalúa por pares); solo cambia la CLI y la demo, y el README lo dice.
 
 ## 9. Criterios de terminado
 
-Checklist del módulo completa; `run.py` reproduce `metrics.json` con la caché llena en < 60 min en
-un M4; cada cifra del README sale de `metrics.json`; CI en verde.
+Checklist del módulo completa; `run.py` reproduce `metrics.json` con la caché llena en < 2 h en un M4
+(8 ajustes de XLM-R ≈ 60 min + clasificador introductorio); cada cifra del README sale de `metrics.json`; CI en verde.
