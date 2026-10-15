@@ -1,0 +1,77 @@
+[project]
+name = "especializacion-ia"
+version = "0.1.0"
+description = "Recorrido práctico de una Especialización en IA (malla tipo EAFIT): notebooks, ejercicios y proyectos."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[project.optional-dependencies]
+# Núcleo numérico y ML clásico: suficiente para preparatorio y gran parte de S1.
+base = [
+    "numpy>=2.1",
+    "pandas>=2.2",
+    "scipy>=1.14",
+    "matplotlib>=3.9",
+    "scikit-learn>=1.5",
+]
+# Deep learning y visión.
+dl = ["torch>=2.5", "torchvision>=0.20"]
+# PLN e IA generativa.
+nlp = [
+    "transformers>=4.46",
+    "datasets>=3.1",
+    "sentence-transformers>=3.3",
+    "anthropic>=0.40",
+]
+# Producción: tracking, serving.
+mlops = ["mlflow>=2.18", "fastapi>=0.115", "uvicorn[standard]>=0.32"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.8",
+    "pytest>=8.3",
+    "jupyterlab>=4.3",
+    "ipykernel>=6.29",
+    "nbclient>=0.10",
+    "nbformat>=5.10",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+# Cada módulo expone su código como paquete importable con nombre en inglés.
+# Al agregar un módulo nuevo, registrar aquí su paquete de src/.
+packages = [
+    "common",
+    "01-semestre-1/01-matematicas-aplicadas/src/applied_math",
+    "01-semestre-1/02-estadistica-aplicada/src/applied_stats",
+    "01-semestre-1/03-fundamentos-ia/src/ai_foundations",
+]
+
+[tool.uv]
+default-groups = ["dev"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-include = ["*.ipynb"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "NPY", "RUF"]
+ignore = [
+    "N803", # nombres matemáticos en mayúscula (X, A) son convención
+    "N806",
+    "RUF001", # el texto en español usa caracteres ambiguos legítimos (´, –)
+    "RUF002",
+    "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"*.ipynb" = ["E402", "B018"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "00-preparatorio", "01-semestre-1", "02-semestre-2"]
+addopts = "-ra --import-mode=importlib"

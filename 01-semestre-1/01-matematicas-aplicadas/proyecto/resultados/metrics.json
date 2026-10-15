@@ -1,0 +1,53 @@
+{
+  "n_train": 16512,
+  "n_test": 4128,
+  "hessian_L": 4.040088495096025,
+  "condition_number": 42.863980536633846,
+  "lr_gd": 0.24751933063194742,
+  "coefficients_normal_eq": {
+    "intercept": 2.0702,
+    "MedInc": 0.8508,
+    "HouseAge": 0.1255,
+    "AveRooms": -0.2907,
+    "AveBedrms": 0.3328,
+    "Population": 0.0001,
+    "AveOccup": -0.0405,
+    "Latitude": -0.8875,
+    "Longitude": -0.8617
+  },
+  "models": {
+    "normal_eq": {
+      "rmse": 0.7314857354992511,
+      "r2": 0.5878622556641468,
+      "seconds": 0.0009937080030795187,
+      "iterations": null
+    },
+    "sklearn": {
+      "rmse": 0.7314857354992509,
+      "r2": 0.5878622556641472,
+      "seconds": 0.0037049169768579304,
+      "iterations": null
+    },
+    "gd": {
+      "rmse": 0.7314857377256622,
+      "r2": 0.5878622531553133,
+      "seconds": 0.07979212500504218,
+      "iterations": 654,
+      "coef_max_abs_diff_vs_normal_eq": 6.06583454576537e-08
+    },
+    "gd_momentum": {
+      "rmse": 0.7314857357983816,
+      "r2": 0.5878622553270714,
+      "seconds": 0.044093042000895366,
+      "iterations": 360,
+      "coef_max_abs_diff_vs_normal_eq": 3.753968358388704e-09
+    },
+    "sgd_b64": {
+      "rmse": 0.7599378166606668,
+      "r2": 0.5551774653745982,
+      "seconds": 0.030045874998904765,
+      "iterations": 30,
+      "coef_max_abs_diff_vs_normal_eq": 0.050049938860499965
+    }
+  }
+}

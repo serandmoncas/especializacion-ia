@@ -1,0 +1,23 @@
+# Entorno
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Datos y artefactos: nunca al repo (usar data/download.py)
+**/data/*
+!**/data/download.py
+!**/data/README.md
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+mlruns/
+mlartifacts/
+
+# Varios
+.DS_Store
+.env
