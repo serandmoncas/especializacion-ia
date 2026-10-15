@@ -1,0 +1,44 @@
+# Taxonomía curada: tema → estantes de Goodreads que lo componen.
+# Criterio (ver notebook 01): solo estantes temáticos; se excluyen los organizativos (to-read,
+# owned, kindle, read-in-*, dnf…) y los combinados ambiguos (sci-fi-fantasy, mystery-thriller va a
+# thriller por ser el uso mayoritario). Cada estante pertenece a un único tema.
+fantasia: {nombre: Fantasía, estantes: [fantasy, epic-fantasy, high-fantasy, urban-fantasy, magic]}
+ciencia_ficcion: {nombre: Ciencia ficción, estantes: [science-fiction, sci-fi, scifi, sf, speculative-fiction]}
+distopia: {nombre: Distopía, estantes: [dystopian, dystopia, post-apocalyptic]}
+romance: {nombre: Romance, estantes: [romance, contemporary-romance, adult-romance, love, new-adult, book-boyfriends, alpha-male]}
+romance_historico: {nombre: Romance histórico, estantes: [historical-romance, regency]}
+erotica: {nombre: Erótica, estantes: [erotica]}
+misterio: {nombre: Misterio, estantes: [mystery, mysteries, detective, murder-mystery, murder, mystery-crime, crime-mystery]}
+thriller: {nombre: Thriller y suspenso, estantes: [thriller, thrillers, suspense, mystery-thriller, thriller-mystery, suspense-thriller, thriller-suspense, mystery-suspense, mystery-thrillers, mystery-suspense-thriller]}
+crimen: {nombre: Crimen, estantes: [crime, crime-fiction, crime-thriller]}
+terror: {nombre: Terror, estantes: [horror]}
+paranormal: {nombre: Paranormal, estantes: [paranormal, supernatural, vampires, vampire, paranormal-romance, pnr, paranormal-fantasy, fantasy-paranormal]}
+ficcion_historica: {nombre: Ficción histórica, estantes: [historical-fiction, historical]}
+clasicos: {nombre: Clásicos, estantes: [classics, classic, classic-literature, 1001-books, '1001', 1001-books-to-read-before-you-die]}
+literatura: {nombre: Literatura, estantes: [literary-fiction, literature, literary, modern-fiction, american-literature, british-literature, american-lit, lit]}
+contemporanea: {nombre: Ficción contemporánea, estantes: [contemporary, contemporary-fiction, realistic-fiction, realistic]}
+juvenil: {nombre: Juvenil, estantes: [young-adult, ya, teen, young-adult-fiction, ya-fiction, ya-books, ya-lit, teen-fiction, youth, high-school]}
+infantil: {nombre: Infantil, estantes: [childrens, children, children-s, children-s-books, kids, kids-books, childrens-books, children-s-literature, children-s-lit, childrens-lit, children-s-fiction, children-books, kid-lit, juvenile, juvenile-fiction, middle-grade]}
+graficas: {nombre: Novela gráfica y cómic, estantes: [graphic-novels, comics, manga]}
+humor: {nombre: Humor, estantes: [humor, funny, humour, comedy, humorous]}
+poesia: {nombre: Poesía, estantes: [poetry]}
+teatro: {nombre: Teatro, estantes: [plays, theatre]}
+cuentos: {nombre: Cuentos, estantes: [short-stories, anthologies]}
+no_ficcion: {nombre: No ficción, estantes: [non-fiction, nonfiction, non-fic]}
+biografia: {nombre: Biografía y memorias, estantes: [biography, memoir, memoirs, autobiography, biographies, biography-memoir, memoir-biography]}
+historia: {nombre: Historia, estantes: [history]}
+guerra: {nombre: Guerra, estantes: [war, wwii, world-war-ii, military, holocaust]}
+autoayuda: {nombre: Autoayuda, estantes: [self-help, personal-development, self-improvement, inspirational, motivation, success]}
+psicologia: {nombre: Psicología, estantes: [psychology]}
+filosofia: {nombre: Filosofía, estantes: [philosophy]}
+religion: {nombre: Religión y espiritualidad, estantes: [religion, christian, spirituality, christianity]}
+ciencia: {nombre: Ciencia, estantes: [science, popular-science]}
+negocios: {nombre: Negocios y economía, estantes: [business, economics, finance, entrepreneurship]}
+politica: {nombre: Política, estantes: [politics, political]}
+viajes: {nombre: Viajes, estantes: [travel]}
+cocina: {nombre: Cocina, estantes: [cookbooks, cooking, food, foodie]}
+aventura: {nombre: Aventura, estantes: [adventure, action, action-adventure]}
+chick_lit: {nombre: Chick lit, estantes: [chick-lit, chicklit, chic-lit, womens-fiction]}
+lgbt: {nombre: LGBT, estantes: [lgbt, gay, lgbtq, queer]}
+mitologia: {nombre: Mitología, estantes: [mythology]}
+arte: {nombre: Arte y música, estantes: [art, music, arts]}

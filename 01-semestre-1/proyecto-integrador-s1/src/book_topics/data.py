@@ -49,9 +49,11 @@ def load_shelves(data_dir: str | Path) -> pd.DataFrame:
     tags = pd.read_csv(data_dir / "tags.csv")
     ids = load_books(data_dir)[["book_id", "goodreads_book_id"]]
     s = bt.merge(tags, on="tag_id").merge(ids, on="goodreads_book_id")
-    return s.rename(columns={"tag_name": "shelf"})[["book_id", "shelf", "count"]].reset_index(
-        drop=True
-    )
+    s = s.rename(columns={"tag_name": "shelf"})
+    # goodbooks-10k trae 6 filas con count = −1 (todas del libro 1935) y 8 pares libro–estante
+    # repetidos: se descartan los conteos no positivos y se suman los repetidos.
+    s = s[s["count"] > 0]
+    return s.groupby(["book_id", "shelf"], as_index=False)["count"].sum()
 
 
 def load_descriptions(data_dir: str | Path) -> pd.Series:

@@ -42,3 +42,19 @@ def test_load_descriptions_cleans_and_keeps_empty(tiny_catalog):
     assert isinstance(d, pd.Series) and len(d) == 6
     assert d[1] == "A young dragon rider & her quest. Magic and fire."
     assert d[6] == ""
+
+
+def test_load_shelves_drops_nonpositive_and_merges_duplicates(tiny_catalog):
+    # goodbooks-10k trae 6 filas con count = −1 y 8 pares libro–estante duplicados
+    tags = (tiny_catalog / "book_tags.csv").read_text().splitlines()
+    fantasy_id = next(
+        line.split(",")[0]
+        for line in (tiny_catalog / "tags.csv").read_text().splitlines()[1:]
+        if line.endswith(",fantasy")
+    )
+    tags += [f"101,{fantasy_id},-1", f"101,{fantasy_id},5"]
+    (tiny_catalog / "book_tags.csv").write_text("\n".join(tags) + "\n")
+    s = load_shelves(tiny_catalog)
+    assert (s["count"] > 0).all()
+    assert not s.duplicated(["book_id", "shelf"]).any()
+    assert s[(s.book_id == 1) & (s.shelf == "fantasy")]["count"].item() == 305
