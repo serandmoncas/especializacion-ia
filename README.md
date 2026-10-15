@@ -1,5 +1,7 @@
 # Especialización en IA — recorrido práctico
 
+[![CI](https://github.com/serandmoncas/especializacion-ia/actions/workflows/ci.yml/badge.svg)](https://github.com/serandmoncas/especializacion-ia/actions/workflows/ci.yml)
+
 Repositorio de estudio que recorre la malla de una Especialización en IA de 24 créditos
 (2 semestres, estructura tipo EAFIT) más un preparatorio de nivelación. Cada curso es un
 módulo con notebooks ejecutables, ejercicios con soluciones y un mini-proyecto; cada
@@ -46,9 +48,9 @@ Leyenda: ✅ terminado · 🚧 en curso · ⬜ por iniciar. Detalle por módulo 
 | Prep. | [Fundamentos Matemáticos](00-preparatorio/01-fundamentos-matematicos) | — | Nivelación | Derivadas numéricas y Taylor | ⬜ |
 | Prep. | [Fundamentos Estadísticos](00-preparatorio/02-fundamentos-estadisticos) | — | Nivelación | TLC por Monte Carlo | ⬜ |
 | Prep. | [Fundamentos Computacionales](00-preparatorio/03-fundamentos-computacionales) | — | Nivelación | EDA vectorizado con pandas | ⬜ |
-| S1 | [Matemáticas aplicadas](01-semestre-1/01-matematicas-aplicadas) | 2 | Compartida | Regresión lineal y GD desde cero | 🚧 (falta CI en verde) |
-| S1 | [Estadística aplicada](01-semestre-1/02-estadistica-aplicada) | 2 | Compartida | A/B/C test de email (Hillstrom) | 🚧 (falta CI en verde) |
-| S1 | [Fundamentos de IA](01-semestre-1/03-fundamentos-ia) | 2 | Núcleo | Pathfinding A*/ALT en mapas reales | 🚧 (falta CI en verde) |
+| S1 | [Matemáticas aplicadas](01-semestre-1/01-matematicas-aplicadas) | 2 | Compartida | Regresión lineal y GD desde cero | ✅ |
+| S1 | [Estadística aplicada](01-semestre-1/02-estadistica-aplicada) | 2 | Compartida | A/B/C test de email (Hillstrom) | ✅ |
+| S1 | [Fundamentos de IA](01-semestre-1/03-fundamentos-ia) | 2 | Núcleo | Pathfinding A*/ALT en mapas reales | ✅ |
 | S1 | [Aprendizaje automático](01-semestre-1/04-aprendizaje-automatico) | 2 | Compartida | Pipeline sklearn con CV | ⬜ |
 | S1 | [Aprendizaje profundo](01-semestre-1/05-aprendizaje-profundo) | 2 | Compartida | Red PyTorch vs. baseline | ⬜ |
 | S1 | [Electiva 1](01-semestre-1/06-electiva-1) | 2 | Electiva | Por decidir | ⬜ |
