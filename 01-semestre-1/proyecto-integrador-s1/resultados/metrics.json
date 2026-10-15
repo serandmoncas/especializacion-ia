@@ -253,63 +253,63 @@
   "parte_b": {
     "colaborativo_elegido": "PureSVD (k=100)",
     "alpha_hibrido": 0.75,
-    "n_usuarios": 53334,
+    "n_usuarios": 53287,
     "modelos": {
       "popularidad": {
-        "ndcg@10": 0.0505136552271872,
-        "cobertura": 0.0056,
-        "percentil_popularidad": 99.9254742851568
+        "ndcg@10": 0.03773954700814051,
+        "cobertura": 0.0057,
+        "percentil_popularidad": 99.92336893906706
       },
       "colaborativo": {
-        "ndcg@10": 0.07124571850419535,
-        "cobertura": 0.1505,
-        "percentil_popularidad": 96.57516092855019
+        "ndcg@10": 0.05387511680033418,
+        "cobertura": 0.1546,
+        "percentil_popularidad": 96.54939384380761
       },
       "temas": {
-        "ndcg@10": 0.01793581719754728,
-        "cobertura": 0.6131,
-        "percentil_popularidad": 72.68260048714588
+        "ndcg@10": 0.013369031280296055,
+        "cobertura": 0.6167,
+        "percentil_popularidad": 72.67748348577045
       },
       "hibrido": {
-        "ndcg@10": 0.07233185583364737,
-        "cobertura": 0.1552,
-        "percentil_popularidad": 96.54595506050023
+        "ndcg@10": 0.05476381044680858,
+        "cobertura": 0.1601,
+        "percentil_popularidad": 96.51018985585011
       }
     },
     "por_historial": {
       "Q1": {
-        "popularidad": 0.03987568527658635,
-        "colaborativo": 0.06404532318273083,
-        "temas": 0.01474576714920108,
-        "hibrido": 0.06450898709849234
+        "popularidad": 0.029996707394952495,
+        "colaborativo": 0.04854386478058151,
+        "temas": 0.010687349074382584,
+        "hibrido": 0.049381012652781955
       },
       "Q2": {
-        "popularidad": 0.04606599287854689,
-        "colaborativo": 0.06898418232060144,
-        "temas": 0.016280738231490358,
-        "hibrido": 0.06996616363828694
+        "popularidad": 0.032855337353096696,
+        "colaborativo": 0.05130929080845388,
+        "temas": 0.011808562623481633,
+        "hibrido": 0.05198946045205285
       },
       "Q3": {
-        "popularidad": 0.05385556938339794,
-        "colaborativo": 0.07487329658436276,
-        "temas": 0.018545228548819324,
-        "hibrido": 0.07601103900074212
+        "popularidad": 0.04033081558281442,
+        "colaborativo": 0.05607066626204799,
+        "temas": 0.01402496010148425,
+        "hibrido": 0.05707042380879283
       },
       "Q4": {
-        "popularidad": 0.06188818510293468,
-        "colaborativo": 0.0768098264194113,
-        "temas": 0.022061882656523812,
-        "hibrido": 0.07856217228865925
+        "popularidad": 0.047026511198483084,
+        "colaborativo": 0.059068938949097,
+        "temas": 0.01667504921605358,
+        "hibrido": 0.060113141083815054
       }
     }
   },
   "libros_nuevos": {
     "n_libros_nuevos": 960,
-    "n_usuarios": 52343,
+    "n_usuarios": 52377,
     "ndcg@10": {
-      "temas_predichos": 0.042076735793288564,
-      "popularidad (optimista)": 0.1430287066361786,
-      "aleatorio": 0.009117957666575523
+      "temas_predichos": 0.042745063109365176,
+      "popularidad (optimista)": 0.1429983722429537,
+      "aleatorio": 0.00901538245066519
     }
   },
   "hipotesis": {
@@ -325,21 +325,21 @@
       "apoya_hipotesis": true
     },
     "H2": {
-      "diff": 0.00046366391576151134,
+      "diff": 0.0008371478722004472,
       "ci": [
-        0.00010335909120822267,
-        0.0008259140885418705
+        0.0005072618654369989,
+        0.0011821606964819145
       ],
-      "p_value": 0.013,
-      "p_holm": 0.013,
+      "p_value": 0.0005,
+      "p_holm": 0.0015,
       "rechaza_h0": true,
       "apoya_hipotesis": true
     },
     "H3": {
-      "diff": -0.10095197084289002,
+      "diff": -0.10025330913358851,
       "ci": [
-        -0.10269026405878577,
-        -0.09930161859619421
+        -0.10189161990650861,
+        -0.09849877801773897
       ],
       "p_value": 0.0005,
       "p_holm": 0.0015,
@@ -352,63 +352,63 @@
     "kappa_por_tema": [
       {
         "topic": "fantasia",
-        "kappa": 0.26096630642085195,
-        "n_ours": 76,
-        "n_ol": 16
+        "kappa": 0.29000000000000004,
+        "n_ours": 90,
+        "n_ol": 25
       },
       {
         "topic": "ciencia_ficcion",
-        "kappa": 0.3992606284658041,
-        "n_ours": 34,
-        "n_ol": 12
-      },
-      {
-        "topic": "romance",
-        "kappa": 0.15540540540540548,
-        "n_ours": 82,
+        "kappa": 0.26116838487972516,
+        "n_ours": 48,
         "n_ol": 15
       },
       {
+        "topic": "romance",
+        "kappa": 0.24008243173621835,
+        "n_ours": 69,
+        "n_ol": 16
+      },
+      {
         "topic": "misterio",
-        "kappa": 0.18134814247414777,
-        "n_ours": 62,
+        "kappa": 0.2508956682227771,
+        "n_ours": 53,
         "n_ol": 13
       },
       {
         "topic": "historia",
-        "kappa": 0.45276497695852536,
-        "n_ours": 18,
-        "n_ol": 19
+        "kappa": 0.05632115038945473,
+        "n_ours": 16,
+        "n_ol": 7
       },
       {
         "topic": "biografia",
-        "kappa": 0.47472094550229815,
-        "n_ours": 21,
-        "n_ol": 11
+        "kappa": 0.3013698630136987,
+        "n_ours": 20,
+        "n_ol": 5
       },
       {
         "topic": "autoayuda",
-        "kappa": 0.12790697674418605,
-        "n_ours": 14,
+        "kappa": 0.148606811145511,
+        "n_ours": 12,
         "n_ol": 1
       },
       {
         "topic": "terror",
-        "kappa": 0.4292237442922374,
-        "n_ours": 12,
-        "n_ol": 6
+        "kappa": 0.16032243618450515,
+        "n_ours": 23,
+        "n_ol": 8
       },
       {
         "topic": "poesia",
-        "kappa": 0.6651785714285714,
-        "n_ours": 2,
-        "n_ol": 1
+        "kappa": 0.1573033707865169,
+        "n_ours": 10,
+        "n_ol": 2
       },
       {
         "topic": "juvenil",
-        "kappa": 0.3754163890739507,
-        "n_ours": 64,
-        "n_ol": 28
+        "kappa": 0.3238646028236095,
+        "n_ours": 68,
+        "n_ol": 19
       }
     ]
   }

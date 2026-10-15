@@ -24,6 +24,7 @@ def test_validate_labels_sample_depends_only_on_seed(medium_catalog, taxonomy_fi
     seen = []
     monkeypatch.setattr(run_module, "fetch_subjects", lambda isbns, cache: seen.append(isbns) or {})
     books = load_books(medium_catalog)
+    books["isbn"] = "978" + books.book_id.astype(str).str.zfill(7)  # el fixture trae ISBN cortos
     labels = label_books(load_shelves(medium_catalog), load_taxonomy(taxonomy_file))
     run_module.validate_labels(books, labels, medium_catalog, seed=42, n=10)
     run_module.validate_labels(books, labels, medium_catalog, seed=42, n=10)
