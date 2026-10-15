@@ -29,7 +29,7 @@ def cluster_bootstrap_diff(
     """IC 95 % y p-valor bilateral de stat_a − stat_b remuestreando *conglomerados* completos.
 
     Las observaciones de un mismo grupo (libros de un autor, recomendaciones a un lector) están
-    correlacionadas: remuestrearlas sueltas subestima la varianza y da intervalos falsamente estrechos.
+    correlacionadas: remuestrearlas sueltas subestima la varianza (intervalos falsamente estrechos).
     El p-valor tiene resolución 1/n_boot: el informe muestra “< 1/n_boot” cuando toca ese piso.
     """
     rng = np.random.default_rng(seed)
