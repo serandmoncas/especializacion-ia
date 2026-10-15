@@ -1,5 +1,7 @@
+import json
 from datetime import datetime
 
+import numpy as np
 import pandas as pd
 import pytest
 from applied_cv.cocoa.data import load_annotations, parse_filename
@@ -60,3 +62,53 @@ def test_prepare_reports_exif_and_size_mismatch(cocoa_raw, tmp_path):
     summary = prepare(cocoa_raw / "CocoaMoniliaDataSet", tmp_path / "p", max_side=64, crop_size=32)
     assert summary["size_mismatch"] == ["m0 (95).jpg"]
     assert summary["exif_orientations"] == {1: 10}
+
+
+def _edit_json(raw, folder, fn):
+    path = raw / "CocoaMoniliaDataSet" / "COCO_annotations" / f"instances_{folder}.json"
+    coco = json.loads(path.read_text())
+    fn(coco)
+    path.write_text(json.dumps(coco))
+
+
+def test_same_name_other_photo_is_excluded(cocoa_raw):
+    # La copia en m1/ de la foto compartida dice otro tamaño: es otra foto con el mismo nombre.
+    def resize(coco):
+        for im in coco["images"]:
+            if im["file_name"] == "IMG_20240227_090000000.jpg":
+                im["width"], im["height"] = 300, 300
+
+    _edit_json(cocoa_raw, "m1", resize)
+    _, pods = load_annotations(cocoa_raw / "CocoaMoniliaDataSet")
+    assert pods.attrs["same_name_other_photo"] == ["IMG_20240227_090000000.jpg"]
+    assert len(pods[pods.image == "IMG_20240227_090000000.jpg"]) == 1
+
+
+def test_label_conflicts_are_dropped_and_counted(cocoa_raw, tmp_path):
+    # La misma mazorca etiquetada h0 en h0/ y m1 en m1/: no se decide por el orden de carpetas.
+    def relabel(coco):
+        image_id = next(
+            im["id"] for im in coco["images"] if im["file_name"] == "IMG_20240227_090000000.jpg"
+        )
+        for a in coco["annotations"]:
+            if a["image_id"] == image_id:
+                a["category_id"] = 2
+
+    _edit_json(cocoa_raw, "m1", relabel)
+    _, pods = load_annotations(cocoa_raw / "CocoaMoniliaDataSet")
+    assert pods.attrs["label_conflicts"] == 1
+    assert len(pods[pods.image == "IMG_20240227_090000000.jpg"]) == 0
+    summary = prepare(cocoa_raw / "CocoaMoniliaDataSet", tmp_path / "p", max_side=64, crop_size=32)
+    assert summary["label_conflicts"] == 1
+    saved = json.loads((tmp_path / "p" / "summary.json").read_text())
+    assert saved["label_conflicts"] == 1
+
+
+def test_crop_pod_matches_prepare_resampling():
+    from applied_cv.cocoa.prepare import crop_pod
+
+    rng = np.random.default_rng(0)
+    image = Image.fromarray(rng.integers(0, 255, (60, 80, 3), dtype=np.uint8))
+    box = (10, 5, 30, 50)
+    ref = image.crop(square_crop_box(box, 80, 60)).resize((32, 32), Image.BILINEAR)
+    assert np.array_equal(np.asarray(crop_pod(image, box, 32)), np.asarray(ref))

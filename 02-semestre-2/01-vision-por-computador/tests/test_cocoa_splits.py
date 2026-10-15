@@ -53,3 +53,18 @@ def test_published_split_conflicts(cocoa_raw):
     part, conflicts = published_split(images, lists)
     assert conflicts == ["IMG_20240227_090000000.jpg"]
     assert part.tolist() == ["fuera", "train", "fuera"]
+
+
+def test_assign_bursts_ignores_export_timestamps():
+    # 5 fotos «epoch» con 10 ms entre sí: es la hora de exportación, no de captura → cada una sola.
+    t0 = datetime(2024, 10, 11, 17, 31, 1)
+    rows = [(f"e{i}", "h0", "epoch", t0 + timedelta(milliseconds=10 * i), None) for i in range(5)]
+    rows += [
+        (name, "h0", "IMG", t0 + timedelta(seconds=sec), None)
+        for name, sec in (("a", 0), ("b", 0.5), ("c", 30), ("d", 60))
+    ]
+    b = assign_bursts(_images(rows))
+    assert b[:5].nunique() == 5
+    assert (
+        b[5] == b[6]
+    )  # en IMG un par a 0,5 s (HDR) sí es ráfaga: su mediana de intervalos es normal

@@ -27,7 +27,7 @@ MD5 = {
     "val.txt": "b1ff099b8ec652a669d10deb0d9758eb",
     "test.txt": "6d9b3e6e3c7dbdbe01a86d18575f56db",
 }
-SHA256_ZIP = None  # se fija tras la primera descarga verificada por MD5
+SHA256_ZIP = "fe5928b261e526cd259f87e282dad95094a29137b260e1f90bb3e2bdb2fef1e6"
 KEEP = ("CocoaMoniliaDataSet/COCO_annotations/", "CocoaMoniliaDataSet/cocoapods_images/")
 
 
@@ -71,7 +71,9 @@ def main() -> None:
     with zipfile.ZipFile(zip_path) as z:
         members = [m for m in z.namelist() if m.startswith(KEEP) and not m.endswith("/")]
         z.extractall(raw, members)
-    summary = prepare(raw / "CocoaMoniliaDataSet", DATA_DIR / "prepared")
+    # Las cajas se anotaron sobre la foto ya girada según EXIF (verificado con un mosaico: sin
+    # aplicar EXIF, las mazorcas de 1 611 fotos con orientación 3, 6 u 8 quedan fuera de su caja).
+    summary = prepare(raw / "CocoaMoniliaDataSet", DATA_DIR / "prepared", apply_exif=True)
     print({k: (v if not isinstance(v, list) else f"{len(v)}: {v[:5]}") for k, v in summary.items()})
     if args.borrar_zip:
         zip_path.unlink()

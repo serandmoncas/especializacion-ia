@@ -68,3 +68,12 @@ def test_diagnosis_writes_figure(models_dir, photo, tmp_path, capsys):
     )
     assert code == 0
     assert out.exists() or "No se detectaron mazorcas" in capsys.readouterr().out
+
+
+def test_directory_and_truncated_image(models_dir, photo, tmp_path, capsys):
+    assert _demo().main([str(tmp_path)], models_dir=models_dir) == 2
+    assert "no es un archivo" in capsys.readouterr().out
+    broken = tmp_path / "rota.jpg"
+    broken.write_bytes(photo.read_bytes()[:300])
+    assert _demo().main([str(broken)], models_dir=models_dir) == 2
+    assert "no es una imagen" in capsys.readouterr().out

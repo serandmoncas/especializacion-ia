@@ -21,7 +21,7 @@ from applied_cv import MODULE
 from applied_cv.cocoa.classifiers import CropDataset, build_resnet, eval_transform, predict_proba
 from applied_cv.cocoa.data import CLASSES
 from applied_cv.cocoa.detector import build_detector
-from applied_cv.cocoa.prepare import square_crop_box
+from applied_cv.cocoa.prepare import crop_pod
 from applied_cv.gradcam import grad_cam
 from applied_dl.training import get_device
 from matplotlib.patches import Rectangle
@@ -56,10 +56,13 @@ def main(argv: list[str] | None = None, *, models_dir: Path | None = None) -> in
     if not path.exists():
         print(f"No existe el archivo {path}.")
         return 2
+    if not path.is_file():
+        print(f"{path} no es un archivo.")
+        return 2
     try:
         with Image.open(path) as im:
             image = ImageOps.exif_transpose(im).convert("RGB")
-    except UnidentifiedImageError:
+    except (UnidentifiedImageError, OSError):  # OSError: archivo truncado o ilegible
         print(f"{path} no es una imagen que se pueda abrir.")
         return 2
     try:
@@ -68,7 +71,8 @@ def main(argv: list[str] | None = None, *, models_dir: Path | None = None) -> in
         print("Faltan los modelos: ejecuta primero proyecto/run.py.")
         return 1
     scale = min(1.0, 1024 / max(image.size))
-    image = image.resize((round(image.width * scale), round(image.height * scale)))
+    size = (round(image.width * scale), round(image.height * scale))
+    image = image.resize(size, Image.BILINEAR)  # como prepare()
     device = get_device()
     with torch.no_grad():
         pred = detector.to(device)([to_tensor(image).to(device)])[0]
@@ -76,9 +80,7 @@ def main(argv: list[str] | None = None, *, models_dir: Path | None = None) -> in
     if len(boxes) == 0:
         print("No se detectaron mazorcas en la foto: no hay diagnóstico.")
         return 0
-    crops = [
-        image.crop(square_crop_box(b, image.width, image.height)).resize((224, 224)) for b in boxes
-    ]
+    crops = [crop_pod(image, b, 224) for b in boxes]
     ds = CropDataset(crops, None, eval_transform())
     proba = predict_proba(classifier, ds, device)
     sick = 1 - proba[:, 0]

@@ -1,5 +1,6 @@
 """Preparación única: fotos reducidas para el detector y recortes cuadrados por mazorca."""
 
+import json
 from collections import Counter
 from pathlib import Path
 
@@ -28,6 +29,18 @@ def square_crop_box(
         min(width, round(left + side)),
         min(height, round(top + side)),
     )
+
+
+def crop_pod(
+    image: Image.Image, box: tuple[float, float, float, float], size: int, margin: float = 0.1
+) -> Image.Image:
+    """Recorte cuadrado de una mazorca llevado a `size`×`size` con remuestreo bilineal.
+
+    Es la única forma de recortar del proyecto (preparación, sistema completo y demo): un
+    clasificador que en inferencia ve recortes remuestreados de otra forma mide otra cosa.
+    """
+    square = square_crop_box(box, image.width, image.height, margin)
+    return image.crop(square).resize((size, size), Image.BILINEAR)
 
 
 def prepare(
@@ -68,11 +81,8 @@ def prepare(
         kept_images.append({**row._asdict(), "scale": scale, "exif": orientation})
         for pod in pods[pods.image == row.image].itertuples(index=False):
             box = (pod.x1 * scale, pod.y1 * scale, pod.x2 * scale, pod.y2 * scale)
-            crop = resized.crop(square_crop_box(box, resized.width, resized.height, margin))
             crop_path = f"crops/{pod.pod_id}.jpg"
-            crop.resize((crop_size, crop_size), Image.BILINEAR).save(
-                out_dir / crop_path, quality=95
-            )
+            crop_pod(resized, box, crop_size, margin).save(out_dir / crop_path, quality=95)
             kept_pods.append(
                 {
                     "pod_id": pod.pod_id,
@@ -87,10 +97,14 @@ def prepare(
             )
     pd.DataFrame(kept_images).to_csv(out_dir / "images.csv", index=False)
     pd.DataFrame(kept_pods).to_csv(out_dir / "pods.csv", index=False)
-    return {
+    summary = {
         "images": len(kept_images),
         "pods": len(kept_pods),
         "missing": missing,
         "size_mismatch": mismatch,
         "exif_orientations": dict(orientations),
+        "same_name_other_photo": pods.attrs["same_name_other_photo"],
+        "label_conflicts": pods.attrs["label_conflicts"],
     }
+    (out_dir / "summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False))
+    return summary

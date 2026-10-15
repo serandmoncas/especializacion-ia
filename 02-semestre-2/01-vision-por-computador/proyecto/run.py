@@ -50,7 +50,7 @@ from applied_cv.cocoa.evaluation import (
     threshold_at_fpr,
 )
 from applied_cv.cocoa.features import color_texture_features
-from applied_cv.cocoa.prepare import square_crop_box
+from applied_cv.cocoa.prepare import crop_pod
 from applied_cv.cocoa.splits import assign_bursts, burst_split, published_split, read_split_lists
 from applied_cv.gradcam import grad_cam
 from applied_dl.training import get_device
@@ -218,12 +218,7 @@ def detection_and_system(images, pods, prepared, part_img, clf, threshold, cfg, 
         keep = scores >= 0.5
         boxes = boxes[keep]
         image = Image.fromarray(_rgb(prepared / "images" / name))
-        crops = [
-            image.crop(square_crop_box(b, image.width, image.height)).resize(
-                (cfg["crop_size"], cfg["crop_size"])
-            )
-            for b in boxes
-        ]
+        crops = [crop_pod(image, b, cfg["crop_size"]) for b in boxes]
         sick = (
             sick_score(predict_proba(clf, CropDataset(crops, None, eval_transform()), device))
             if crops
@@ -300,6 +295,7 @@ def run(data: Path, out: Path, *, smoke=False, device=None, models_dir=None) -> 
             "conflictos_publicada": conflicts,
             "fuera_publicada": int((images.part_publicada == "fuera").sum()),
             "fotos_por_parte_rafaga": images.part_rafaga.value_counts().to_dict(),
+            "preparacion": json.loads((prepared / "summary.json").read_text()),
         },
         "config": cfg,
     }

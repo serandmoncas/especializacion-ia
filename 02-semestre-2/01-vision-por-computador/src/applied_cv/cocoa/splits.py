@@ -9,20 +9,32 @@ from sklearn.model_selection import StratifiedGroupKFold
 # Intervalos entre fotos consecutivas del mismo celular en el dataset: mediana 4 s, 90 % ≤ 72 s,
 # 95 % ≤ 134 s. Con 120 s una ráfaga es «la misma sesión frente a la misma mazorca o árbol».
 GAP_SECONDS = 120
+# Las 232 fotos con nombre epoch (ms) caen en 2 s, con 8 ms de mediana entre ellas: es la hora de
+# exportación, no la de captura. Un celular cuya mediana entre fotos es < 1 s no tiene hora útil.
+MIN_MEDIAN_GAP = 1.0
 
 
 def assign_bursts(
-    images: pd.DataFrame, gap_seconds: float = GAP_SECONDS, seq_gap: int = 3
+    images: pd.DataFrame,
+    gap_seconds: float = GAP_SECONDS,
+    seq_gap: int = 3,
+    min_median_gap: float = MIN_MEDIAN_GAP,
 ) -> pd.Series:
     """Id de ráfaga por foto.
 
     Con hora: fotos del mismo celular separadas por ≤ `gap_seconds` de la anterior. Sin hora pero
     numeradas (IMG_E####): números a ≤ `seq_gap` del anterior. Sin ninguna de las dos:
-    cada foto sola.
+    cada foto sola. La hora de un celular cuya mediana entre fotos consecutivas es menor que
+    `min_median_gap` segundos no es de captura y se ignora.
     """
     burst = pd.Series(-1, index=images.index, dtype=int)
     next_id = 0
     timed = images[images["timestamp"].notna()].sort_values(["camera", "timestamp"])
+    median_gap = timed.groupby("camera")["timestamp"].apply(
+        lambda t: t.diff().dt.total_seconds().median()
+    )
+    export_only = set(median_gap[median_gap < min_median_gap].index)
+    timed = timed[~timed["camera"].isin(export_only)]
     prev_camera, prev_time = None, None
     for idx, row in timed.iterrows():
         if row.camera != prev_camera or (row.timestamp - prev_time).total_seconds() > gap_seconds:
@@ -30,6 +42,7 @@ def assign_bursts(
         burst[idx] = next_id
         prev_camera, prev_time = row.camera, row.timestamp
     numbered = images[images["timestamp"].isna() & images["seq"].notna()].sort_values("seq")
+    numbered = numbered[~numbered["camera"].isin(export_only)]
     prev_seq = None
     for idx, row in numbered.iterrows():
         if prev_seq is None or row.seq - prev_seq > seq_gap:
