@@ -15,6 +15,9 @@ base = [
     "matplotlib>=3.9",
     "scikit-learn>=1.5",
     "statsmodels>=0.14",  # referencia para series de tiempo (ACF, ETS, ARIMA, ADF)
+    "pyyaml>=6",
+    "joblib>=1.4",
+    "defusedxml>=0.7",  # XML de fuentes externas sin XXE
 ]
 # Deep learning y visión.
 dl = ["torch>=2.5", "torchvision>=0.20"]
@@ -54,6 +57,7 @@ packages = [
     "01-semestre-1/05-aprendizaje-profundo/src/applied_dl",
     "01-semestre-1/06-electiva-1/a-series-de-tiempo/src/applied_ts",
     "01-semestre-1/06-electiva-1/b-sistemas-de-recomendacion/src/applied_recsys",
+    "01-semestre-1/proyecto-integrador-s1/src/book_topics",
 ]
 
 [tool.uv]
@@ -63,6 +67,7 @@ default-groups = ["dev"]
 line-length = 100
 target-version = "py312"
 extend-include = ["*.ipynb"]
+extend-exclude = ["docs/superpowers"]  # specs y planes aprobados: documentos históricos, no se reformatean
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "NPY", "RUF"]
