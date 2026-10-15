@@ -49,6 +49,7 @@ packages = [
     "01-semestre-1/01-matematicas-aplicadas/src/applied_math",
     "01-semestre-1/02-estadistica-aplicada/src/applied_stats",
     "01-semestre-1/03-fundamentos-ia/src/ai_foundations",
+    "01-semestre-1/04-aprendizaje-automatico/src/applied_ml",
 ]
 
 [tool.uv]

@@ -1,0 +1,262 @@
+{
+  "nested_cv": {
+    "baseline": {
+      "outer_auc": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "outer_mean": 0.5,
+      "outer_std": 0.0,
+      "inner_best_mean": 0.5,
+      "chosen_params": [
+        {
+          "strategy": "prior"
+        },
+        {
+          "strategy": "prior"
+        },
+        {
+          "strategy": "prior"
+        },
+        {
+          "strategy": "prior"
+        },
+        {
+          "strategy": "prior"
+        }
+      ],
+      "seconds": 3.8549717080022674
+    },
+    "logistic": {
+      "outer_auc": [
+        0.9091708589355659,
+        0.9038853139860313,
+        0.9015706138341258,
+        0.9083089660318011,
+        0.9100195144805495
+      ],
+      "outer_mean": 0.9065910534536148,
+      "outer_std": 0.0036703816219699607,
+      "inner_best_mean": 0.9063786311815452,
+      "chosen_params": [
+        {
+          "C": 0.1
+        },
+        {
+          "C": 0.1
+        },
+        {
+          "C": 1.0
+        },
+        {
+          "C": 0.1
+        },
+        {
+          "C": 1.0
+        }
+      ],
+      "seconds": 2.5320362499915063
+    },
+    "random_forest": {
+      "outer_auc": [
+        0.9205702336532452,
+        0.9159083005168087,
+        0.9144478748720362,
+        0.922455932464005,
+        0.9221764631216565
+      ],
+      "outer_mean": 0.9191117609255504,
+      "outer_std": 0.0036985475945767194,
+      "inner_best_mean": 0.9177800317375839,
+      "chosen_params": [
+        {
+          "max_features": 0.3,
+          "min_samples_leaf": 10
+        },
+        {
+          "max_features": 0.3,
+          "min_samples_leaf": 10
+        },
+        {
+          "max_features": "sqrt",
+          "min_samples_leaf": 2
+        },
+        {
+          "max_features": 0.3,
+          "min_samples_leaf": 10
+        },
+        {
+          "max_features": "sqrt",
+          "min_samples_leaf": 2
+        }
+      ],
+      "seconds": 25.832078375009587
+    },
+    "hist_gradient_boosting": {
+      "outer_auc": [
+        0.9282923491350416,
+        0.9272020094445546,
+        0.9232524168648042,
+        0.9317849712700614,
+        0.9284688769318407
+      ],
+      "outer_mean": 0.9278001247292604,
+      "outer_std": 0.0030662642189671183,
+      "inner_best_mean": 0.9262455141839772,
+      "chosen_params": [
+        {
+          "learning_rate": 0.1,
+          "max_leaf_nodes": 15
+        },
+        {
+          "learning_rate": 0.1,
+          "max_leaf_nodes": 31
+        },
+        {
+          "learning_rate": 0.1,
+          "max_leaf_nodes": 15
+        },
+        {
+          "learning_rate": 0.1,
+          "max_leaf_nodes": 31
+        },
+        {
+          "learning_rate": 0.1,
+          "max_leaf_nodes": 31
+        }
+      ],
+      "seconds": 18.78677454200806
+    }
+  },
+  "best_model": "hist_gradient_boosting",
+  "scratch_vs_library": {
+    "logistic (C=1)": {
+      "sklearn": {
+        "auc": 0.9049365070702546,
+        "seconds": 0.6692154170013964
+      },
+      "desde_cero": {
+        "auc": 0.9049365488893781,
+        "seconds": 0.1627672910108231
+      }
+    },
+    "árbol (prof. 8, hoja ≥ 20)": {
+      "sklearn": {
+        "auc": 0.9049128688106913,
+        "seconds": 0.14472650000243448
+      },
+      "desde_cero": {
+        "auc": 0.9049195807800144,
+        "seconds": 0.4777247919992078
+      }
+    }
+  },
+  "test": {
+    "model": "hist_gradient_boosting",
+    "params": {
+      "model__learning_rate": 0.1,
+      "model__max_leaf_nodes": 31
+    },
+    "auc": 0.9274632352403063,
+    "auc_ci95": [
+      0.9233871097913952,
+      0.9314420599708645
+    ],
+    "average_precision": 0.82496045163582,
+    "log_loss": 0.2764418466311203,
+    "brier": 0.08812176065285353,
+    "ece": 0.008460355199886194,
+    "threshold_f1_oof": 0.3994620574901265,
+    "at_threshold": {
+      "precision": 0.7107668867445404,
+      "recall": 0.7277691107644306,
+      "f1": 0.7191675231243578
+    },
+    "at_0.5": {
+      "precision": 0.7726432532347505,
+      "recall": 0.6521060842433697,
+      "f1": 0.7072758037225042
+    },
+    "accuracy_baseline": 0.7637737239727289,
+    "accuracy": 0.8657330630796634
+  },
+  "permutation_importance_auc": {
+    "marital_status": 0.08437439950352335,
+    "capital_gain": 0.056409159140792586,
+    "age": 0.052534734441247365,
+    "education_num": 0.029386871011631753,
+    "capital_loss": 0.014864854184034715,
+    "occupation": 0.013569157643667928,
+    "hours_per_week": 0.011992296499258436,
+    "relationship": 0.003985402198556809,
+    "workclass": 0.00253157918837863,
+    "sex": 0.0020550272754778164,
+    "native_country": 0.0005754792314732304,
+    "race": 0.00021123466571153492
+  },
+  "subgroups": {
+    "sex": {
+      "Female": {
+        "n": 5421,
+        "prevalencia": 0.10883600811658366,
+        "tasa_predicha_positiva": 0.10145729570190001,
+        "auc": 0.9473644787021671,
+        "tpr": 0.652542372881356,
+        "fpr": 0.034154419374870626
+      },
+      "Male": {
+        "n": 10860,
+        "prevalencia": 0.2998158379373849,
+        "tasa_predicha_positiva": 0.3119705340699816,
+        "auc": 0.9092346973725196,
+        "tpr": 0.7414004914004914,
+        "fpr": 0.12809047869542345
+      }
+    },
+    "race": {
+      "Amer-Indian-Eskimo": {
+        "n": 159,
+        "prevalencia": 0.11949685534591195,
+        "tasa_predicha_positiva": 0.09433962264150944,
+        "auc": 0.9616541353383459,
+        "tpr": 0.5789473684210527,
+        "fpr": 0.02857142857142857
+      },
+      "Asian-Pac-Islander": {
+        "n": 480,
+        "prevalencia": 0.27708333333333335,
+        "tasa_predicha_positiva": 0.2916666666666667,
+        "auc": 0.9017572750319603,
+        "tpr": 0.7218045112781954,
+        "fpr": 0.12680115273775217
+      },
+      "Black": {
+        "n": 1561,
+        "prevalencia": 0.11467008327994875,
+        "tasa_predicha_positiva": 0.09352978859705317,
+        "auc": 0.9510546612875842,
+        "tpr": 0.6033519553072626,
+        "fpr": 0.027496382054992764
+      },
+      "Other": {
+        "n": 135,
+        "prevalencia": 0.18518518518518517,
+        "tasa_predicha_positiva": 0.11851851851851852,
+        "auc": 0.98,
+        "tpr": 0.6,
+        "fpr": 0.00909090909090909
+      },
+      "White": {
+        "n": 13946,
+        "prevalencia": 0.2502509680195038,
+        "tasa_predicha_positiva": 0.2596443424637889,
+        "auc": 0.9240293203008706,
+        "tpr": 0.7361031518624642,
+        "fpr": 0.10061208875286917
+      }
+    }
+  }
+}

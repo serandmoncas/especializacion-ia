@@ -51,7 +51,7 @@ Leyenda: ✅ terminado · 🚧 en curso · ⬜ por iniciar. Detalle por módulo 
 | S1 | [Matemáticas aplicadas](01-semestre-1/01-matematicas-aplicadas) | 2 | Compartida | Regresión lineal y GD desde cero | ✅ |
 | S1 | [Estadística aplicada](01-semestre-1/02-estadistica-aplicada) | 2 | Compartida | A/B/C test de email (Hillstrom) | ✅ |
 | S1 | [Fundamentos de IA](01-semestre-1/03-fundamentos-ia) | 2 | Núcleo | Pathfinding A*/ALT en mapas reales | ✅ |
-| S1 | [Aprendizaje automático](01-semestre-1/04-aprendizaje-automatico) | 2 | Compartida | Pipeline sklearn con CV | ⬜ |
+| S1 | [Aprendizaje automático](01-semestre-1/04-aprendizaje-automatico) | 2 | Compartida | Pipeline completo sobre UCI Adult | 🚧 (falta CI en verde) |
 | S1 | [Aprendizaje profundo](01-semestre-1/05-aprendizaje-profundo) | 2 | Compartida | Red PyTorch vs. baseline | ⬜ |
 | S1 | [Electiva 1](01-semestre-1/06-electiva-1) | 2 | Electiva | Por decidir | ⬜ |
 | S1 | [Proyecto integrador S1](01-semestre-1/proyecto-integrador-s1) | — | — | Predictivo tabular end-to-end | ⬜ |
