@@ -352,63 +352,63 @@
     "kappa_por_tema": [
       {
         "topic": "fantasia",
-        "kappa": 0.29000000000000004,
-        "n_ours": 90,
-        "n_ol": 25
+        "kappa": 0.1455078124999999,
+        "n_ours": 76,
+        "n_ol": 12
       },
       {
         "topic": "ciencia_ficcion",
-        "kappa": 0.26116838487972516,
-        "n_ours": 48,
-        "n_ol": 15
-      },
-      {
-        "topic": "romance",
-        "kappa": 0.24008243173621835,
-        "n_ours": 69,
-        "n_ol": 16
-      },
-      {
-        "topic": "misterio",
-        "kappa": 0.2508956682227771,
-        "n_ours": 53,
-        "n_ol": 13
-      },
-      {
-        "topic": "historia",
-        "kappa": 0.05632115038945473,
-        "n_ours": 16,
-        "n_ol": 7
-      },
-      {
-        "topic": "biografia",
-        "kappa": 0.3013698630136987,
-        "n_ours": 20,
+        "kappa": 0.20374707259953162,
+        "n_ours": 39,
         "n_ol": 5
       },
       {
-        "topic": "autoayuda",
-        "kappa": 0.148606811145511,
-        "n_ours": 12,
-        "n_ol": 1
-      },
-      {
-        "topic": "terror",
-        "kappa": 0.16032243618450515,
-        "n_ours": 23,
+        "topic": "romance",
+        "kappa": 0.09194097616345054,
+        "n_ours": 66,
         "n_ol": 8
       },
       {
-        "topic": "poesia",
-        "kappa": 0.1573033707865169,
-        "n_ours": 10,
+        "topic": "misterio",
+        "kappa": 0.017790956263899038,
+        "n_ours": 52,
+        "n_ol": 3
+      },
+      {
+        "topic": "historia",
+        "kappa": 0.23064195896757123,
+        "n_ours": 29,
+        "n_ol": 14
+      },
+      {
+        "topic": "biografia",
+        "kappa": 0.2794486215538847,
+        "n_ours": 27,
+        "n_ol": 6
+      },
+      {
+        "topic": "autoayuda",
+        "kappa": 0.12320143884892099,
+        "n_ours": 13,
         "n_ol": 2
       },
       {
+        "topic": "terror",
+        "kappa": 0.1902834008097165,
+        "n_ours": 18,
+        "n_ol": 2
+      },
+      {
+        "topic": "poesia",
+        "kappa": 0.3296089385474861,
+        "n_ours": 5,
+        "n_ol": 1
+      },
+      {
         "topic": "juvenil",
-        "kappa": 0.3238646028236095,
-        "n_ours": 68,
-        "n_ol": 19
+        "kappa": 0.13554633471645927,
+        "n_ours": 54,
+        "n_ol": 6
       }
     ]
   }

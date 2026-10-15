@@ -49,7 +49,9 @@ temas; tiene estantes que cada lector inventa (`fantasy`, pero también `to-read
 - **Parte A:** se parte por **autor** (70/10/20; 6 690 / 810 / 2 123 libros). Si el mismo autor quedara
   en train y en test, el modelo reconocería la serie y no el contenido.
 - **Parte B:** se parte por el **orden de cada lector**: su último 20 % va a test.
-- **Libros nuevos:** el 10 % de los libros (960) se retira de todo el entrenamiento.
+- **Libros nuevos:** el 10 % de los libros (1 000) se retira de las calificaciones de la Parte B y del
+  modelo de texto que los clasifica; se evalúan los 960 que tienen sinopsis. En la Parte A siguen
+  siendo libros normales del catálogo.
 
 **Modelos**
 
@@ -73,8 +75,8 @@ conglomerados (autor en A, lector en B) con 2 000 réplicas, y los p-valores se 
 | | Comparación | Δ | IC 95 % | p | p Holm | ¿Se apoya? |
 |---|---|---|---|---|---|---|
 | H1 | Logística − k vecinos, F1-macro (A) | +0,063 | [+0,047; +0,077] | < 0,0005 | 0,0015 | **Sí** |
-| H2 | Híbrido − colaborativo, NDCG@10 en el cuartil de menos historial (B) | +0,0005 | [+0,0001; +0,0008] | 0,013 | 0,013 | Sí, pero **irrelevante** |
-| H3 | Temas predichos − popularidad, NDCG@10 en libros nuevos | −0,101 | [−0,103; −0,099] | < 0,0005 | 0,0015 | **No** |
+| H2 | Híbrido − colaborativo, NDCG@10 en el cuartil de menos historial (B) | +0,0008 | [+0,0005; +0,0012] | < 0,0005 | 0,0015 | Sí, pero **irrelevante** |
+| H3 | Temas predichos − popularidad, NDCG@10 en libros nuevos | −0,100 | [−0,102; −0,098] | < 0,0005 | 0,0015 | **No** |
 
 ## Resultados
 
@@ -89,63 +91,81 @@ conglomerados (autor en A, lector en B) con 2 000 réplicas, y los p-valores se 
 
 - **Texto frente a lectores:** el texto gana en F1-macro por +0,105 (IC [0,080; 0,130]) y los lectores
   ganan en F1-micro. Los lectores aciertan los temas grandes y el texto distingue mejor los pequeños.
+- **La ECE no prueba buena calibración:** agregada sobre 40 temas la dominan los negativos fáciles, y
+  hasta la prevalencia saca 0,003. Habría que mirar la confiabilidad por tema.
 - **La F1 por tema sigue a la prevalencia** (Spearman 0,58).
-- **Confusiones principales:** aventura → fantasía (126 falsos positivos), juvenil → fantasía (77) y
-  romance → fantasía (72).
+- **Errores más frecuentes:** a libros de fantasía, el modelo les agrega temas que no tienen: aventura
+  (126 veces), juvenil (77) y romance (72).
 - **La sinopsis importa:** el F1-micro va de 0,566 en el cuartil más corto a 0,676 en los más largos.
 
-### Parte B · temas → libros (53 334 lectores)
+### Parte B · temas → libros (53 287 lectores)
 
 | Modelo | NDCG@10 | Cobertura del catálogo | Percentil de popularidad |
 |---|---|---|---|
-| Popularidad | 0,0505 | 0,6 % | 99,9 |
-| Colaborativo (PureSVD) | 0,0712 | 15,0 % | 96,6 |
-| Temas | 0,0179 | **61,3 %** | **72,7** |
-| **Híbrido** | **0,0723** | 15,5 % | 96,5 |
+| Popularidad | 0,0377 | 0,6 % | 99,9 |
+| Colaborativo (PureSVD) | 0,0539 | 15,5 % | 96,5 |
+| Temas | 0,0134 | **61,7 %** | **72,7** |
+| **Híbrido** | **0,0548** | 16,0 % | 96,5 |
 
 Recomendar solo por temas acierta poco, pero cubre 4 veces más catálogo y propone libros menos
 populares. Sirve para descubrir, no para acertar. Todos los modelos mejoran con más historial; por
-ejemplo, el híbrido pasa de 0,0645 en Q1 a 0,0786 en Q4.
+ejemplo, el híbrido pasa de 0,0494 en Q1 a 0,0601 en Q4.
 
-### Libros nuevos (960 libros sin calificaciones en entrenamiento; 52 343 lectores)
+### Libros nuevos (960 libros sin calificaciones en entrenamiento; 52 377 lectores)
 
 | Estrategia | NDCG@10 |
 |---|---|
 | Aleatorio | 0,009 |
-| **Temas predichos de la sinopsis** | **0,042** |
+| **Temas predichos de la sinopsis** | **0,043** |
 | Popularidad (*optimista*: usa calificaciones que el día 1 no existirían) | 0,143 |
 
 Por eso H3 no se apoya. Aun así, los temas son la única señal disponible el día 1 y multiplican por
-4,6 el resultado del azar.
+4,7 el resultado del azar.
 
 ### ¿Son confiables las etiquetas? Acuerdo con Open Library (300 libros)
 
 | Tema | κ | Libros con el tema (nosotros / Open Library) |
 |---|---|---|
-| Autoayuda | 0,13 | 14 / 1 |
-| Romance | 0,16 | 82 / 15 |
-| Misterio | 0,18 | 62 / 13 |
-| Fantasía | 0,26 | 76 / 16 |
-| Juvenil | 0,38 | 64 / 28 |
-| Ciencia ficción | 0,40 | 34 / 12 |
-| Terror | 0,43 | 12 / 6 |
-| Historia | 0,45 | 18 / 19 |
-| Biografía | 0,47 | 21 / 11 |
-| Poesía | 0,67 | 2 / 1 (muy pocos casos) |
+| Misterio | 0,02 | 52 / 3 |
+| Romance | 0,09 | 66 / 8 |
+| Autoayuda | 0,12 | 13 / 2 |
+| Juvenil | 0,14 | 54 / 6 |
+| Fantasía | 0,15 | 76 / 12 |
+| Terror | 0,19 | 18 / 2 |
+| Ciencia ficción | 0,20 | 39 / 5 |
+| Historia | 0,23 | 29 / 14 |
+| Biografía | 0,28 | 27 / 6 |
+| Poesía | 0,33 | 5 / 1 (muy pocos casos) |
 
-El acuerdo es de débil a moderado, y buena parte se explica porque Open Library anota muchos menos
-temas. Las etiquetas de lectores son ruidosas, pero no arbitrarias, y todas las métricas de la Parte A
-heredan ese techo.
+El acuerdo es débil, y buena parte se explica porque Open Library anota muchos menos temas (misterio:
+52 libros nuestros frente a 3 suyos). Además, **κ es inestable con 300 libros**: una muestra anterior,
+tomada antes de fijar la semilla de esta validación, dio entre 0,13 y 0,47 (historia 0,45, biografía
+0,47). Las etiquetas de lectores son ruidosas pero no arbitrarias, y todas las métricas de la Parte A
+heredan ese techo; medir el acuerdo en serio pediría una muestra mayor o etiquetado manual.
 
-### Dos ejecuciones: el desempate post hoc
+### El desempate post hoc
 
 La primera ejecución completa está en `resultados/metrics_v1_sin_desempate.json`. En ella, el
 recomendador por temas daba 0,0098 de NDCG@10, porque muchos libros empataban en puntaje y el orden
 entre empatados era arbitrario. Se agregó un desempate por popularidad con un peso menor que 1e-9
-(`topic_scores_with_tiebreak`) y el resultado subió a 0,0179. Los otros modelos no cambiaron.
+(`topic_scores_with_tiebreak`) y el resultado subió a 0,0179. Ambas cifras se midieron con la partición
+por lector anterior a la corrección descrita abajo, así que no se comparan con la tabla de arriba.
 
-El ajuste es razonable, pero se hizo **después de ver test**, así que se reporta como post hoc. Las
-hipótesis no dependen de él: H3 usa temas *predichos*, y el desempate no se aplica a libros nuevos.
+El ajuste es razonable, pero se hizo **después de ver test**, así que se reporta como post hoc. H3 no
+depende de él (usa temas *predichos* y el desempate no se aplica a libros nuevos), pero **H2 sí**: el
+híbrido usa el puntaje de temas con desempate. En la v1, H2 daba Δ = +0,00047 con p = 0,012; con el
+desempate, +0,00046 con p = 0,013. La conclusión no cambia, pero H2 ya no es estrictamente prerregistrada.
+
+### Correcciones tras la revisión final
+
+- **Partición por lector.** `order` se calculaba antes de quitar los libros nuevos, así que quedaba con
+  huecos y test recibía ≈ 27 % de las calificaciones de cada lector en vez de 20 %. No había fuga (el
+  orden temporal se respetaba), pero las cifras de la Parte B se recalcularon: todas bajan (≈ 0,071 →
+  0,054 en el colaborativo) porque hay menos libros relevantes por lector, y las conclusiones se
+  mantienen.
+- **Modelo de la CLI.** Filtraba los libros con otro criterio que `run.py`, y 1 651 de los 2 123 libros
+  de test estaban en su entrenamiento. Ahora ambos usan `usable_books` y el modelo guarda sus `test_ids`.
+  Las métricas de `run.py` no se veían afectadas.
 
 ## Limitaciones
 
