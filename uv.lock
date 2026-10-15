@@ -559,9 +559,12 @@ source = { editable = "." }
 
 [package.optional-dependencies]
 base = [
+    { name = "defusedxml" },
+    { name = "joblib" },
     { name = "matplotlib" },
     { name = "numpy" },
     { name = "pandas" },
+    { name = "pyyaml" },
     { name = "scikit-learn" },
     { name = "scipy" },
     { name = "statsmodels" },
@@ -598,11 +601,14 @@ dev = [
 requires-dist = [
     { name = "anthropic", marker = "extra == 'nlp'", specifier = ">=0.40" },
     { name = "datasets", marker = "extra == 'nlp'", specifier = ">=3.1" },
+    { name = "defusedxml", marker = "extra == 'base'", specifier = ">=0.7" },
     { name = "fastapi", marker = "extra == 'mlops'", specifier = ">=0.115" },
+    { name = "joblib", marker = "extra == 'base'", specifier = ">=1.4" },
     { name = "matplotlib", marker = "extra == 'base'", specifier = ">=3.9" },
     { name = "mlflow", marker = "extra == 'mlops'", specifier = ">=2.18" },
     { name = "numpy", marker = "extra == 'base'", specifier = ">=2.1" },
     { name = "pandas", marker = "extra == 'base'", specifier = ">=2.2" },
+    { name = "pyyaml", marker = "extra == 'base'", specifier = ">=6" },
     { name = "scikit-learn", marker = "extra == 'base'", specifier = ">=1.5" },
     { name = "scipy", marker = "extra == 'base'", specifier = ">=1.14" },
     { name = "sentence-transformers", marker = "extra == 'nlp'", specifier = ">=3.3" },
