@@ -49,3 +49,16 @@ def explain(
 ) -> list[str]:
     contrib = profile * topic_vec
     return [names[t] for t in np.argsort(-contrib)[:top] if contrib[t] > 0]
+
+
+def topic_scores_with_tiebreak(
+    profiles: np.ndarray, T: np.ndarray, popularity: np.ndarray
+) -> np.ndarray:
+    """Coseno de temas con desempate por popularidad.
+
+    Con ~40 temas binarios, miles de libros tienen exactamente el mismo vector y el mismo
+    puntaje: sin desempate, el orden dentro del empate es arbitrario. La popularidad entra con un
+    peso < 1e-9, por debajo de cualquier diferencia real de coseno, así que solo ordena empates.
+    """
+    pop = np.asarray(popularity, dtype=float)
+    return topic_scores(profiles, T) + 1e-9 * pop / (pop.max() + 1.0)

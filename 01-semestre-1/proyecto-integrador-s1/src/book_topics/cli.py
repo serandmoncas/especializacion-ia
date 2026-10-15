@@ -10,7 +10,7 @@ import pandas as pd
 
 from book_topics import MODULE
 from book_topics.artifacts import load_bundle, predict_topics, save_bundle, train_bundle
-from book_topics.recommend import explain, profile_from_titles, topic_scores
+from book_topics.recommend import explain, profile_from_titles, topic_scores_with_tiebreak
 
 _PUNCT = re.compile(r"[^\w\s]")
 
@@ -109,7 +109,7 @@ def main(
         )
         print("Temas predichos: " + ", ".join(names[t] for t in np.flatnonzero(assigned[0])))
         vec = b.T[pos] if b.T[pos].any() else assigned[0].astype(float)
-        scores = topic_scores(vec[None, :], b.T)[0] + 1e-9 * b.popularity
+        scores = topic_scores_with_tiebreak(vec[None, :], b.T, b.popularity)[0]
         scores[pos] = -np.inf
         print("Parecidos por temas:")
         for i, j in enumerate(np.argsort(-scores)[:10], 1):
@@ -132,9 +132,7 @@ def main(
         print("No hay temas suficientes en lo que indicaste: recomiendo por popularidad.")
         scores = b.popularity.astype(float).copy()
     else:
-        scores = (
-            topic_scores(profile[None, :], b.T)[0] + 1e-9 * b.popularity
-        )  # desempate por popularidad
+        scores = topic_scores_with_tiebreak(profile[None, :], b.T, b.popularity)[0]
     scores[list(set(liked) | set(disliked))] = -np.inf
     for i, j in enumerate(np.argsort(-scores)[: args.n], 1):
         why = explain(profile, b.T[j], names)

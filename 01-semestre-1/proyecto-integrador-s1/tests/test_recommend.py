@@ -44,3 +44,14 @@ def test_explain_picks_largest_contributions():
     names = ["fantasía", "aventura", "romance"]
     assert explain(np.array([0.9, 0.5, 0.1]), np.ones(3), names, top=2) == ["fantasía", "aventura"]
     assert explain(np.array([0.9, 0.5, 0.1]), np.zeros(3), names) == []
+
+
+def test_tiebreak_orders_ties_by_popularity_only():
+    from book_topics.recommend import topic_scores_with_tiebreak
+
+    T2 = np.array([[1, 0], [1, 0], [0, 1]], float)  # libros 0 y 1 empatan en temas
+    S = topic_scores_with_tiebreak(
+        np.array([[1.0, 0]]), T2, popularity=np.array([5.0, 50.0, 1000.0])
+    )
+    assert S[0, 1] > S[0, 0]  # empate → gana el más popular
+    assert S[0, 0] > S[0, 2]  # la popularidad nunca supera a una diferencia real de temas

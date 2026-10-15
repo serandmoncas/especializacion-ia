@@ -1,0 +1,412 @@
+{
+  "parte_a": {
+    "n_libros": {
+      "train": 6690,
+      "val": 810,
+      "test": 2123
+    },
+    "modelos": {
+      "logistica": {
+        "micro_f1": 0.6444695259593679,
+        "macro_f1": 0.5504339476378591,
+        "precision_at_3": 0.6949285602135343,
+        "ece": 0.004537420865242211,
+        "per_topic_f1": {
+          "fantasia": 0.7743,
+          "ciencia_ficcion": 0.4519,
+          "distopia": 0.3975,
+          "romance": 0.6987,
+          "romance_historico": 0.4848,
+          "erotica": 0.3077,
+          "misterio": 0.7932,
+          "thriller": 0.7808,
+          "crimen": 0.7593,
+          "terror": 0.3297,
+          "paranormal": 0.6429,
+          "ficcion_historica": 0.5663,
+          "clasicos": 0.5872,
+          "literatura": 0.6,
+          "contemporanea": 0.6846,
+          "juvenil": 0.7101,
+          "infantil": 0.6684,
+          "graficas": 0.7188,
+          "humor": 0.5116,
+          "poesia": 0.4783,
+          "teatro": 0.2222,
+          "cuentos": 0.6133,
+          "no_ficcion": 0.8343,
+          "biografia": 0.66,
+          "historia": 0.5503,
+          "guerra": 0.4675,
+          "autoayuda": 0.5674,
+          "psicologia": 0.4,
+          "filosofia": 0.4885,
+          "religion": 0.532,
+          "ciencia": 0.6024,
+          "negocios": 0.7606,
+          "politica": 0.5135,
+          "viajes": 0.2857,
+          "cocina": 0.75,
+          "aventura": 0.4624,
+          "chick_lit": 0.4545,
+          "lgbt": 0.1111,
+          "mitologia": 0.25,
+          "arte": 0.5455
+        },
+        "params": {
+          "C": 16.0
+        }
+      },
+      "knn": {
+        "micro_f1": 0.5885963715727731,
+        "macro_f1": 0.4878703559543419,
+        "precision_at_3": 0.6019783325482807,
+        "ece": 0.030362248904546994,
+        "per_topic_f1": {
+          "fantasia": 0.7148,
+          "ciencia_ficcion": 0.401,
+          "distopia": 0.1869,
+          "romance": 0.6735,
+          "romance_historico": 0.3158,
+          "erotica": 0.2222,
+          "misterio": 0.7491,
+          "thriller": 0.7104,
+          "crimen": 0.5567,
+          "terror": 0.3062,
+          "paranormal": 0.453,
+          "ficcion_historica": 0.5719,
+          "clasicos": 0.5596,
+          "literatura": 0.5719,
+          "contemporanea": 0.6481,
+          "juvenil": 0.6157,
+          "infantil": 0.557,
+          "graficas": 0.5811,
+          "humor": 0.409,
+          "poesia": 0.5091,
+          "teatro": 0.2222,
+          "cuentos": 0.4948,
+          "no_ficcion": 0.7802,
+          "biografia": 0.5906,
+          "historia": 0.5323,
+          "guerra": 0.455,
+          "autoayuda": 0.5568,
+          "psicologia": 0.3188,
+          "filosofia": 0.4848,
+          "religion": 0.5131,
+          "ciencia": 0.541,
+          "negocios": 0.8116,
+          "politica": 0.4356,
+          "viajes": 0.0909,
+          "cocina": 0.8,
+          "aventura": 0.4172,
+          "chick_lit": 0.48,
+          "lgbt": 0.1111,
+          "mitologia": 0.1111,
+          "arte": 0.4545
+        },
+        "params": {
+          "k": 50
+        }
+      },
+      "prevalencia": {
+        "micro_f1": 0.24884142655651822,
+        "macro_f1": 0.1238673388888694,
+        "precision_at_3": 0.2485476526927304,
+        "ece": 0.00265911396780608,
+        "per_topic_f1": {
+          "fantasia": 0.4239,
+          "ciencia_ficcion": 0.2491,
+          "distopia": 0.0,
+          "romance": 0.3874,
+          "romance_historico": 0.0,
+          "erotica": 0.0,
+          "misterio": 0.3663,
+          "thriller": 0.3638,
+          "crimen": 0.2691,
+          "terror": 0.0761,
+          "paranormal": 0.1394,
+          "ficcion_historica": 0.2505,
+          "clasicos": 0.2669,
+          "literatura": 0.2476,
+          "contemporanea": 0.3825,
+          "juvenil": 0.3631,
+          "infantil": 0.1619,
+          "graficas": 0.0,
+          "humor": 0.1761,
+          "poesia": 0.0,
+          "teatro": 0.0,
+          "cuentos": 0.0,
+          "no_ficcion": 0.2817,
+          "biografia": 0.1353,
+          "historia": 0.1146,
+          "guerra": 0.0,
+          "autoayuda": 0.0,
+          "psicologia": 0.0,
+          "filosofia": 0.0,
+          "religion": 0.0,
+          "ciencia": 0.0,
+          "negocios": 0.0,
+          "politica": 0.0,
+          "viajes": 0.0,
+          "cocina": 0.0,
+          "aventura": 0.1659,
+          "chick_lit": 0.1336,
+          "lgbt": 0.0,
+          "mitologia": 0.0,
+          "arte": 0.0
+        },
+        "params": {}
+      },
+      "lectores": {
+        "micro_f1": 0.6634801705206046,
+        "macro_f1": 0.44539220905964927,
+        "precision_at_3": 0.6380907520803893,
+        "ece": 0.041676666468037464,
+        "per_topic_f1": {
+          "fantasia": 0.8146,
+          "ciencia_ficcion": 0.4705,
+          "distopia": 0.3579,
+          "romance": 0.8255,
+          "romance_historico": 0.0,
+          "erotica": 0.3111,
+          "misterio": 0.8099,
+          "thriller": 0.8653,
+          "crimen": 0.7888,
+          "terror": 0.5772,
+          "paranormal": 0.6782,
+          "ficcion_historica": 0.5938,
+          "clasicos": 0.7886,
+          "literatura": 0.7568,
+          "contemporanea": 0.7152,
+          "juvenil": 0.8491,
+          "infantil": 0.7891,
+          "graficas": 0.4916,
+          "humor": 0.4601,
+          "poesia": 0.0909,
+          "teatro": 0.0,
+          "cuentos": 0.1975,
+          "no_ficcion": 0.8786,
+          "biografia": 0.5206,
+          "historia": 0.4851,
+          "guerra": 0.2879,
+          "autoayuda": 0.6048,
+          "psicologia": 0.2785,
+          "filosofia": 0.4224,
+          "religion": 0.3911,
+          "ciencia": 0.1967,
+          "negocios": 0.4478,
+          "politica": 0.0,
+          "viajes": 0.0,
+          "cocina": 0.0,
+          "aventura": 0.4936,
+          "chick_lit": 0.577,
+          "lgbt": 0.0,
+          "mitologia": 0.0,
+          "arte": 0.0
+        },
+        "params": {}
+      }
+    },
+    "spearman_prevalencia_f1": 0.5765748868859966,
+    "confusiones": [
+      [
+        126,
+        "aventura",
+        "fantasia"
+      ],
+      [
+        77,
+        "juvenil",
+        "fantasia"
+      ],
+      [
+        72,
+        "romance",
+        "fantasia"
+      ],
+      [
+        67,
+        "romance",
+        "juvenil"
+      ],
+      [
+        66,
+        "humor",
+        "contemporanea"
+      ]
+    ],
+    "f1_por_cuartil_largo": {
+      "0": 0.5662431941923775,
+      "1": 0.6527149321266968,
+      "2": 0.6757660167130919,
+      "3": 0.6757478632478633
+    },
+    "exploratoria_texto_vs_lectores": {
+      "diff": 0.10504173857820986,
+      "ci": [
+        0.07963747574387389,
+        0.1301357338171276
+      ],
+      "p_value": 0.0005
+    }
+  },
+  "parte_b": {
+    "colaborativo_elegido": "PureSVD (k=100)",
+    "alpha_hibrido": 0.75,
+    "n_usuarios": 53334,
+    "modelos": {
+      "popularidad": {
+        "ndcg@10": 0.0505136552271872,
+        "cobertura": 0.0056,
+        "percentil_popularidad": 99.9254742851568
+      },
+      "colaborativo": {
+        "ndcg@10": 0.07124571850419535,
+        "cobertura": 0.1505,
+        "percentil_popularidad": 96.57516092855019
+      },
+      "temas": {
+        "ndcg@10": 0.009790096999504812,
+        "cobertura": 0.8973,
+        "percentil_popularidad": 59.14560027645619
+      },
+      "hibrido": {
+        "ndcg@10": 0.07233407354008205,
+        "cobertura": 0.1555,
+        "percentil_popularidad": 96.53808068398246
+      }
+    },
+    "por_historial": {
+      "Q1": {
+        "popularidad": 0.03987568527658635,
+        "colaborativo": 0.06404532318273083,
+        "temas": 0.008849075881527146,
+        "hibrido": 0.06451843846685436
+      },
+      "Q2": {
+        "popularidad": 0.04606599287854689,
+        "colaborativo": 0.06898418232060144,
+        "temas": 0.009403410100277766,
+        "hibrido": 0.06998091523717194
+      },
+      "Q3": {
+        "popularidad": 0.05385556938339794,
+        "colaborativo": 0.07487329658436276,
+        "temas": 0.009903377051462443,
+        "hibrido": 0.07601534307105058
+      },
+      "Q4": {
+        "popularidad": 0.06188818510293468,
+        "colaborativo": 0.0768098264194113,
+        "temas": 0.010979418161577987,
+        "hibrido": 0.07854304445271917
+      }
+    }
+  },
+  "libros_nuevos": {
+    "n_libros_nuevos": 960,
+    "n_usuarios": 52343,
+    "ndcg@10": {
+      "temas_predichos": 0.042076735793288564,
+      "popularidad (optimista)": 0.1430287066361786,
+      "aleatorio": 0.009117957666575523
+    }
+  },
+  "hipotesis": {
+    "H1": {
+      "diff": 0.06256359168351722,
+      "ci": [
+        0.04741274162791009,
+        0.07710041942003405
+      ],
+      "p_value": 0.0005,
+      "p_holm": 0.0015,
+      "rechaza_h0": true
+    },
+    "H2": {
+      "diff": 0.00047311528412352644,
+      "ci": [
+        0.00011370289731699457,
+        0.000823877928683231
+      ],
+      "p_value": 0.012,
+      "p_holm": 0.012,
+      "rechaza_h0": true
+    },
+    "H3": {
+      "diff": -0.10095197084289002,
+      "ci": [
+        -0.10269026405878577,
+        -0.09930161859619421
+      ],
+      "p_value": 0.0005,
+      "p_holm": 0.0015,
+      "rechaza_h0": true
+    }
+  },
+  "validacion_etiquetas": {
+    "n_libros": 300,
+    "kappa_por_tema": [
+      {
+        "topic": "fantasia",
+        "kappa": 0.26096630642085195,
+        "n_ours": 76,
+        "n_ol": 16
+      },
+      {
+        "topic": "ciencia_ficcion",
+        "kappa": 0.3992606284658041,
+        "n_ours": 34,
+        "n_ol": 12
+      },
+      {
+        "topic": "romance",
+        "kappa": 0.15540540540540548,
+        "n_ours": 82,
+        "n_ol": 15
+      },
+      {
+        "topic": "misterio",
+        "kappa": 0.18134814247414777,
+        "n_ours": 62,
+        "n_ol": 13
+      },
+      {
+        "topic": "historia",
+        "kappa": 0.45276497695852536,
+        "n_ours": 18,
+        "n_ol": 19
+      },
+      {
+        "topic": "biografia",
+        "kappa": 0.47472094550229815,
+        "n_ours": 21,
+        "n_ol": 11
+      },
+      {
+        "topic": "autoayuda",
+        "kappa": 0.12790697674418605,
+        "n_ours": 14,
+        "n_ol": 1
+      },
+      {
+        "topic": "terror",
+        "kappa": 0.4292237442922374,
+        "n_ours": 12,
+        "n_ol": 6
+      },
+      {
+        "topic": "poesia",
+        "kappa": 0.6651785714285714,
+        "n_ours": 2,
+        "n_ol": 1
+      },
+      {
+        "topic": "juvenil",
+        "kappa": 0.3754163890739507,
+        "n_ours": 64,
+        "n_ol": 28
+      }
+    ]
+  }
+}
