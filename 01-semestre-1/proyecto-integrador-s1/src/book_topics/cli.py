@@ -20,13 +20,16 @@ def normalize(title: str) -> str:
 
 
 def find_book(query: str, titles: pd.Series) -> tuple[int | None, list[str]]:
-    """Exacto o prefijo → parcial → difflib. Devuelve la mejor posición y hasta 3 alternativas."""
+    """Exacto → prefijo → parcial → difflib. Devuelve la mejor posición y hasta 3 alternativas."""
     norm = titles.map(normalize).tolist()
     q = normalize(query)
-    exact = [i for i, t in enumerate(norm) if t == q or t.startswith(q + " ")]
-    if len(exact) == 1:
-        return exact[0], []
-    contains = exact or [i for i, t in enumerate(norm) if q and q in t]
+    exact = [i for i, t in enumerate(norm) if t == q]
+    prefix = [i for i, t in enumerate(norm) if t.startswith(q + " ")]
+    if exact:
+        return exact[0], [titles.iloc[i] for i in (exact[1:] + prefix)[:3]]
+    if len(prefix) == 1:
+        return prefix[0], []
+    contains = prefix or [i for i, t in enumerate(norm) if q and q in t]
     if contains:
         return contains[0], [titles.iloc[i] for i in contains[1:4]]
     close = difflib.get_close_matches(q, norm, n=4, cutoff=0.6)
@@ -123,6 +126,9 @@ def main(
             if pos is None:
                 print(f"No encontré «{q}» (se ignora). Parecidos: {'; '.join(alts)}")
                 continue
+            if alts or normalize(titles.iloc[pos]) != normalize(q):
+                also = f" (también: {'; '.join(alts)})" if alts else ""
+                print(f"«{q}» → {titles.iloc[pos]}{also}")
             out.append(pos)
     if not liked and not disliked:
         print("Ningún título reconocido.")

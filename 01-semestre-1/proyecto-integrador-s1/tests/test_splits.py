@@ -49,3 +49,11 @@ def test_usable_books_requires_min_words_and_a_topic():
     desc = pd.Series({1: "one two three", 2: "one", 3: "one two three"})
     labels = pd.DataFrame({"x": [True, True, False, True]}, index=[1, 2, 3, 4])
     assert usable_books(books, desc, labels, min_words=3).book_id.tolist() == [1]
+
+
+def test_user_split_fractions_hold_when_order_has_gaps():
+    # run.py quita los libros nuevos después de calcular `order`: las posiciones quedan con huecos.
+    r = pd.DataFrame({"user_id": 1, "book_id": range(10), "order": range(0, 20, 2)})
+    tr, va, te = user_split(r)
+    assert (len(tr), len(va), len(te)) == (8, 0, 2)
+    assert te.book_id.tolist() == [8, 9]

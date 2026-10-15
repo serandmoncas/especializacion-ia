@@ -67,3 +67,14 @@ def test_recomendar_null_profile_falls_back(bundle_path, capsys):
 def test_missing_models_message(tmp_path, capsys):
     assert main(["temas", "x"], bundle_path=tmp_path / "no.joblib", data_dir=tmp_path) == 1
     assert "entrenar" in capsys.readouterr().out
+
+
+def test_find_book_prefers_exact_title_over_prefix():
+    # «The Raven» no debe resolverse a «The Raven Boys» solo porque aparece antes en el catálogo.
+    titles = pd.Series(["The Raven Boys (The Raven Cycle, #1)", "The Raven", "I Am Legend"])
+    assert find_book("The Raven", titles) == (1, ["The Raven Boys (The Raven Cycle, #1)"])
+
+
+def test_recomendar_informs_ambiguous_choice(bundle_path, capsys):
+    assert main(["recomendar", "--lei", "fantasy tale"], bundle_path=bundle_path) == 0
+    assert "«fantasy tale» →" in capsys.readouterr().out

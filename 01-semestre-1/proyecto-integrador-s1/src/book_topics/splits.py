@@ -46,7 +46,9 @@ def user_split(ratings: pd.DataFrame, test_frac: float = 0.2, val_frac: float = 
     Cada lector conserva al menos una calificación en train."""
     r = ratings.sort_values(["user_id", "order"], kind="stable")
     size = r.groupby("user_id")["order"].transform("size")
-    pos = r["order"]
+    # Posición recalculada: si se filtraron filas (libros nuevos), `order` tiene huecos y usarlo
+    # directo manda a test más del `test_frac` pedido.
+    pos = r.groupby("user_id").cumcount()
     n_test = np.minimum(np.maximum(1, np.floor(size * test_frac)), size - 1).astype(int)
     rest = size - n_test
     n_val = np.minimum(np.floor(rest * val_frac), rest - 1).astype(int)
