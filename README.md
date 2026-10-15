@@ -56,7 +56,7 @@ Leyenda: ✅ terminado · 🚧 en curso · ⬜ por iniciar. Detalle por módulo 
 | S1 | [Electiva 1 · Series de tiempo](01-semestre-1/06-electiva-1/a-series-de-tiempo) | 2 | Electiva | Pronóstico de demanda con backtesting | ✅ |
 | S1 | [Electiva 1 · Sistemas de recomendación](01-semestre-1/06-electiva-1/b-sistemas-de-recomendacion) | (2) | Electiva | Recomendador de películas (MovieLens 1M) | ✅ |
 | S1 | [Proyecto integrador S1](01-semestre-1/proyecto-integrador-s1) | — | — | Temas de libros como puente para recomendar (goodbooks-10k) | ✅ |
-| S2 | [Visión por computador](02-semestre-2/01-vision-por-computador) | 2 | Propia | Transfer learning | ⬜ |
+| S2 | [Visión por computador](02-semestre-2/01-vision-por-computador) | 2 | Propia | Detección temprana de monilia en cacao (CocoaMoniliaDataSet) | 🚧 |
 | S2 | [PLN](02-semestre-2/02-pln) | 2 | Propia | Clasificador de texto en español | ⬜ |
 | S2 | [IA Generativa](02-semestre-2/03-ia-generativa) | 2 | Propia | RAG con evaluación | ⬜ |
 | S2 | [MLOps](02-semestre-2/04-mlops) | 2 | Compartida | FastAPI + Docker + MLflow + CI | ⬜ |
