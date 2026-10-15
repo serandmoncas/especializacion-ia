@@ -54,3 +54,21 @@ def test_out_of_vocabulary_text_is_low_confidence():
     model = TextTopicModel(min_df=1).fit(TEXTS, Y)
     assert model.low_confidence(["asdf qwerty zzzz", "dragon magic"]).tolist() == [True, False]
     assert np.allclose(model.predict_proba(["asdf qwerty zzzz"])[0], Y.mean(axis=0))
+
+
+def test_mostly_unknown_words_are_low_confidence():
+    # Texto en otro idioma que comparte alguna palabra con el vocabulario: no es vector nulo,
+    # pero sin base (caso real: "un libro sobre cocina mexicana" → Clásicos 0.33).
+    model = TextTopicModel(min_df=1).fit(TEXTS, Y)
+    assert model.low_confidence(["un libro sobre cocina dragon"]).tolist() == [True]
+    assert model.low_confidence(["dragon magic quest kingdom"]).tolist() == [False]
+
+
+def test_non_english_text_with_known_words_is_low_confidence():
+    # Caso real: "Una novela de amor y guerra en la España del siglo XX" tiene 90 % de palabras
+    # conocidas (aparecen en títulos del catálogo) pero no está en inglés.
+    model = TextTopicModel(min_df=1).fit(TEXTS, Y)
+    spanish = "dragon magic quest fire love romance paris kiss de la en el"
+    assert model.known_fraction([spanish])[0] >= 0.5
+    assert model.low_confidence([spanish]).tolist() == [True]
+    assert model.low_confidence(["the dragon and the magic of the quest"]).tolist() == [False]
