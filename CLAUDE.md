@@ -18,6 +18,8 @@
 - **Notebooks smoke**: marcar con `"smoke": true` en la metadata del notebook solo si corren en
   segundos y sin descargar datos; CI los ejecuta con `scripts/run_notebooks.py`.
   Guardar salidas: `uv run python scripts/run_notebooks.py --inplace <ruta>`.
+  Los notebooks de los proyectos integradores **no** son smoke: necesitan los datos completos y
+  `resultados/` de `run.py`; se ejecutan a mano con `--inplace` y se versionan con sus salidas.
 - **Ejercicios**: stub en `ejercicios/ejNN_*.py` con `check()`; solución completa en
   `ejercicios/soluciones/` con el mismo `check()`; `tests/test_soluciones.py` las ejecuta.
 - **Dependencias pesadas** (torch, transformers): en tests usar `pytest.importorskip`, porque
