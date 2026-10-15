@@ -2,6 +2,8 @@
 
 import json
 import urllib.parse
+from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -188,3 +190,48 @@ def build_wiki_world() -> FakeWiki:
 @pytest.fixture
 def wiki_world():
     return build_wiki_world()
+
+
+def build_alcpl_world(raw: Path) -> tuple[FakeWiki, FakeWiki]:
+    """4 dominios × 5 conceptos en cadena (nivel 0 → 4). Escribe `raw/<dominio>.pairs/.preqs` y
+    devuelve (wiki_en, wiki_es). Un concepto no tiene página ES (se descarta)."""
+    from research_paths.alcpl import DOMAINS
+
+    raw.mkdir(parents=True, exist_ok=True)
+    en_pages, es_pages = {}, {}
+    for d, domain in enumerate(DOMAINS):
+        names = [f"{domain}_c{k}" for k in range(5)]
+        pairs, preqs = [], []
+        for i in range(5):
+            for j in range(5):
+                if i > j:  # j es prerrequisito de i (nivel menor)
+                    pairs += [(names[i], names[j]), (names[j], names[i])]
+                    preqs.append((names[i], names[j]))
+        (raw / f"{domain}.pairs").write_text("".join(f"{a},{b}\n" for a, b in pairs))
+        (raw / f"{domain}.preqs").write_text("".join(f"{a},{b}\n" for a, b in preqs))
+        for k, name in enumerate(names):
+            es = f"Concepto {d}-{k}"
+            missing_es = d == 0 and k == 4
+            en_pages[name] = {
+                "extract": f"Concept of level {k} in {domain}.",
+                "langlinks": {} if missing_es else {"es": es},
+            }
+            if not missing_es:
+                es_pages[es] = {
+                    "extract": f"Concepto de nivel {k} " + "básico " * (5 - k),
+                    "links": [f"Concepto {d}-{m}" for m in range(k)],
+                }
+    return FakeWiki(en_pages), FakeWiki(es_pages)
+
+
+class StubJudge:
+    """Juez LLM falso: dice «sí» cuando el texto de B parece más básico que el de A."""
+
+    def judge(self, items):
+        return [ta.count("básico") < tb.count("básico") for _, ta, _, tb in items]
+
+
+@pytest.fixture
+def worlds():
+    """Constructores de mundos falsos (los tests no pueden importar `conftest` por nombre)."""
+    return SimpleNamespace(alcpl=build_alcpl_world, oa=build_oa_world, judge=StubJudge)
