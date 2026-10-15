@@ -53,6 +53,7 @@ packages = [
     "01-semestre-1/04-aprendizaje-automatico/src/applied_ml",
     "01-semestre-1/05-aprendizaje-profundo/src/applied_dl",
     "01-semestre-1/06-electiva-1/a-series-de-tiempo/src/applied_ts",
+    "01-semestre-1/06-electiva-1/b-sistemas-de-recomendacion/src/applied_recsys",
 ]
 
 [tool.uv]

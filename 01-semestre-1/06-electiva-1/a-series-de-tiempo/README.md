@@ -65,4 +65,4 @@ Los notebooks usan el CO₂ de Mauna Loa incluido en statsmodels: no requieren d
 - [x] Ejercicios con soluciones en carpeta aparte (5; soluciones verificadas por tests)
 - [x] Mini-proyecto con README, código y resultados (intervalos de predicción: tu turno)
 - [x] Tests de las funciones en `src/`
-- [ ] CI en verde
+- [x] CI en verde

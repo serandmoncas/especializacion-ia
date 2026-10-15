@@ -1,0 +1,186 @@
+{
+  "n_train": 802553,
+  "n_test": 197602,
+  "n_val": 77568,
+  "rating": {
+    "best_params": {
+      "item_knn": {
+        "k": 100,
+        "denom_reg": 0.5
+      },
+      "als": {
+        "k": 64,
+        "reg": 0.1
+      },
+      "funksvd_epochs": 24
+    },
+    "temporal": {
+      "media global": {
+        "rmse": 1.1477060387819906,
+        "seconds": 0.0016361669986508787
+      },
+      "sesgos (μ + b_u + b_i)": {
+        "rmse": 0.9218592790863608,
+        "seconds": 0.0011790409917011857
+      },
+      "item-kNN": {
+        "rmse": 0.8815679650462327,
+        "seconds": 10.977690375002567
+      },
+      "FunkSVD (SGD)": {
+        "rmse": 0.8742855483793497,
+        "seconds": 8.831731457990827
+      },
+      "ALS explícito": {
+        "rmse": 0.8846603604463501,
+        "seconds": 4.175234665977769
+      }
+    },
+    "aleatoria": {
+      "sesgos (μ + b_u + b_i)": 0.9059883177711943,
+      "ALS explícito": 0.8633033627145944
+    }
+  },
+  "ranking": {
+    "n_usuarios": 5958,
+    "best_params": {
+      "puresvd_k": 50,
+      "ials_alpha": 0.25,
+      "knn_k": 50
+    },
+    "resultados": {
+      "aleatorio": {
+        "ndcg@10": 0.0057630230361131575,
+        "ndcg_ic95": [
+          0.005068973162856344,
+          0.006542338668622222
+        ],
+        "recall@10": 0.003453210693617354,
+        "precision@10": 0.005169519973145351,
+        "hit@10": 0.050016784155756965,
+        "cobertura": 1.0,
+        "percentil_popularidad": 48.55337067071842
+      },
+      "popularidad": {
+        "ndcg@10": 0.0894859046617362,
+        "ndcg_ic95": [
+          0.08561227010085269,
+          0.09336984652521639
+        ],
+        "recall@10": 0.0466300160399509,
+        "precision@10": 0.07868412218865391,
+        "hit@10": 0.3851963746223565,
+        "cobertura": 0.03211009174311927,
+        "percentil_popularidad": 99.70556785487616
+      },
+      "FunkSVD (ordenar por rating predicho)": {
+        "ndcg@10": 0.04582292248023786,
+        "ndcg_ic95": [
+          0.04329114452504202,
+          0.04835701159897026
+        ],
+        "recall@10": 0.02573084266413771,
+        "precision@10": 0.041188318227593154,
+        "hit@10": 0.25075528700906347,
+        "cobertura": 0.21181867242309768,
+        "percentil_popularidad": 67.75993991226937
+      },
+      "item-kNN": {
+        "ndcg@10": 0.09705735593575837,
+        "ndcg_ic95": [
+          0.09336897161940673,
+          0.10069536054933956
+        ],
+        "recall@10": 0.06847246092961382,
+        "precision@10": 0.08017791205102384,
+        "hit@10": 0.4687814702920443,
+        "cobertura": 0.4306529951430113,
+        "percentil_popularidad": 89.0896006639368
+      },
+      "PureSVD": {
+        "ndcg@10": 0.11472310477733486,
+        "ndcg_ic95": [
+          0.11081957790440052,
+          0.11879601144413937
+        ],
+        "recall@10": 0.08361589853796413,
+        "precision@10": 0.0928163813360188,
+        "hit@10": 0.4989929506545821,
+        "cobertura": 0.24123043712898004,
+        "percentil_popularidad": 95.56785623521193
+      },
+      "ALS implícito": {
+        "ndcg@10": 0.10116678065469856,
+        "ndcg_ic95": [
+          0.09736387750717515,
+          0.1050208681008056
+        ],
+        "recall@10": 0.08013063952771075,
+        "precision@10": 0.08173883853642162,
+        "hit@10": 0.4739845585767036,
+        "cobertura": 0.33054506206152184,
+        "percentil_popularidad": 94.45208859678569
+      }
+    },
+    "ndcg_por_actividad": {
+      "Q1 (16–36 calif.)": {
+        "popularidad": 0.0376934821215941,
+        "item-kNN": 0.07921790436001756,
+        "PureSVD": 0.11065515085613196,
+        "ALS implícito": 0.1084339178401923
+      },
+      "Q2 (36–78 calif.)": {
+        "popularidad": 0.052239759792097856,
+        "item-kNN": 0.07430932941819886,
+        "PureSVD": 0.08201132004725928,
+        "ALS implícito": 0.07421576668227803
+      },
+      "Q3 (78–168 calif.)": {
+        "popularidad": 0.08531407690136177,
+        "item-kNN": 0.09148820491061675,
+        "PureSVD": 0.09456828481365286,
+        "ALS implícito": 0.08377264693197095
+      },
+      "Q4 (168–1852 calif.)": {
+        "popularidad": 0.18103305006306517,
+        "item-kNN": 0.14282600502816847,
+        "PureSVD": 0.1720230470994344,
+        "ALS implícito": 0.13904147598232047
+      }
+    }
+  },
+  "ejemplo": {
+    "usuario": 173,
+    "le_gustaron": [
+      "Full Metal Jacket (1987)",
+      "Terminator, The (1984)",
+      "Matrix, The (1999)",
+      "Die Hard (1988)",
+      "Godfather, The (1972)"
+    ],
+    "recomendado": [
+      "Raiders of the Lost Ark (1981)",
+      "Rocky (1976)",
+      "Aliens (1986)",
+      "Star Wars: Episode V - The Empire Strikes Back (1980)",
+      "Jaws (1975)",
+      "Godfather: Part II, The (1974)",
+      "Predator (1987)",
+      "Ben-Hur (1959)",
+      "In the Line of Fire (1993)",
+      "Mad Max (1979)"
+    ],
+    "acierto": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false
+    ]
+  }
+}
