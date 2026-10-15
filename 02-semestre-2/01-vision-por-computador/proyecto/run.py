@@ -188,17 +188,25 @@ def camera_probe(F, pods_h0, n_boot) -> dict:
     return {**res, "exactitud_balanceada": res["diff"] + 0.5, "n": counts}
 
 
+def images_with_boxes(names, pods) -> tuple[list[str], list[np.ndarray], list[str]]:
+    """(fotos con al menos una mazorca, sus cajas, fotos sin anotación que se excluyen)."""
+    boxes_of = {n: g[["x1", "y1", "x2", "y2"]].to_numpy() for n, g in pods.groupby("image")}
+    kept = [n for n in names if n in boxes_of]
+    return kept, [boxes_of[n] for n in kept], [n for n in names if n not in boxes_of]
+
+
 def detection_and_system(images, pods, prepared, part_img, clf, threshold, cfg, device):
     """Detector entrenado en train (por ráfaga), AP en test y sistema completo en fotos de test."""
-    boxes_of = {n: g[["x1", "y1", "x2", "y2"]].to_numpy() for n, g in pods.groupby("image")}
-    train_names = images.image[part_img == "train"].tolist()
-    test_names = images.image[part_img == "test"].tolist()
+    train_names, train_boxes, skip_train = images_with_boxes(
+        images.image[part_img == "train"].tolist(), pods
+    )
+    test_names, gt, skip_test = images_with_boxes(images.image[part_img == "test"].tolist(), pods)
     detector = build_detector(cfg["pretrained"], cfg["det_min_size"], cfg["det_max_size"])
     losses = train_detector(
         detector,
         DetectionDataset(
             [prepared / "images" / n for n in train_names],
-            [boxes_of[n] for n in train_names],
+            train_boxes,
             flip_prob=0.5,
         ),
         epochs=cfg["det_epochs"],
@@ -206,12 +214,12 @@ def detection_and_system(images, pods, prepared, part_img, clf, threshold, cfg, 
         lr=cfg["det_lr"],
     )
     found = detect(detector, [prepared / "images" / n for n in test_names], device)
-    gt = [boxes_of[n] for n in test_names]
     det = {
         "ap50": average_precision([b for b, _ in found], [s for _, s in found], gt, 0.5),
         "ap50_95": average_precision_range([b for b, _ in found], [s for _, s in found], gt),
         "perdidas": losses,
         "fotos_test": len(test_names),
+        "fotos_sin_anotacion_excluidas": len(skip_train) + len(skip_test),
     }
     rows = []
     for name, (boxes, scores) in zip(test_names, found, strict=True):

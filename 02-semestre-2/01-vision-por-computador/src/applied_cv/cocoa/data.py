@@ -11,6 +11,7 @@ import pandas as pd
 from applied_cv.boxes import box_iou
 
 CLASSES = ("h0", "m1", "m2", "m3")  # sana, jorobas, manchas café, esporulación
+CONFLICT = "conflicto"  # etapas distintas según la carpeta: fuera del clasificador, sí del detector
 _IMG = re.compile(r"^IMG_(\d{8})_(\d{6})")
 _DATE_TIME = re.compile(r"^(\d{8})_(\d{6})")
 _EPOCH = re.compile(r"^(\d{13})")
@@ -39,10 +40,10 @@ def _dedupe_pods(pods: pd.DataFrame, iou_threshold: float) -> tuple[pd.DataFrame
     """Agrupa las anotaciones repetidas de una misma mazorca (IoU > umbral en la misma foto).
 
     Si todas dicen la misma etapa se conserva una; si discrepan (p. ej. m1 en una carpeta y m2 en
-    otra) se descartan todas: elegir por el orden de carpetas sesgaría la etiqueta. Devuelve
-    (mazorcas, número de mazorcas descartadas por conflicto).
+    otra) se conserva una con etiqueta «conflicto»: elegir por el orden de carpetas sesgaría la
+    etapa, pero sigue siendo una mazorca para el detector. Devuelve (mazorcas, n.º de conflictos).
     """
-    keep, conflicts = [], 0
+    keep, conflicted = [], []
     for _, group in pods.groupby("image", sort=False):
         boxes = group[["x1", "y1", "x2", "y2"]].to_numpy(float)
         labels = group["label"].to_numpy()
@@ -55,11 +56,12 @@ def _dedupe_pods(pods: pd.DataFrame, iou_threshold: float) -> tuple[pd.DataFrame
             else:
                 clusters.append([i])
         for members in clusters:
-            if len(set(labels[members])) == 1:
-                keep.append(group.index[members[0]])
-            else:
-                conflicts += 1
-    return pods.loc[sorted(keep)].reset_index(drop=True), conflicts
+            keep.append(group.index[members[0]])
+            if len(set(labels[members])) > 1:
+                conflicted.append(group.index[members[0]])
+    out = pods.loc[sorted(keep)].copy()
+    out.loc[conflicted, "label"] = CONFLICT
+    return out.reset_index(drop=True), len(conflicted)
 
 
 def load_annotations(
@@ -72,7 +74,7 @@ def load_annotations(
     con otro tamaño, es otra foto: sus cajas no corresponden al archivo elegido y se descartan. Las
     mazorcas repetidas (IoU > `dedupe_iou` en la misma foto) se unifican (ver `_dedupe_pods`).
     Cajas COCO [x, y, w, h] → [x1, y1, x2, y2]. En `pods.attrs` quedan `same_name_other_photo`
-    (nombres) y `label_conflicts` (mazorcas descartadas).
+    (nombres) y `label_conflicts` (mazorcas con etiqueta «conflicto»).
     """
     root = Path(root)
     images: dict[str, dict] = {}

@@ -84,8 +84,9 @@ def test_same_name_other_photo_is_excluded(cocoa_raw):
     assert len(pods[pods.image == "IMG_20240227_090000000.jpg"]) == 1
 
 
-def test_label_conflicts_are_dropped_and_counted(cocoa_raw, tmp_path):
+def test_label_conflicts_are_marked_and_counted(cocoa_raw, tmp_path):
     # La misma mazorca etiquetada h0 en h0/ y m1 en m1/: no se decide por el orden de carpetas.
+    # Sigue siendo una mazorca (el detector la usa); su etapa queda como «conflicto».
     def relabel(coco):
         image_id = next(
             im["id"] for im in coco["images"] if im["file_name"] == "IMG_20240227_090000000.jpg"
@@ -97,7 +98,7 @@ def test_label_conflicts_are_dropped_and_counted(cocoa_raw, tmp_path):
     _edit_json(cocoa_raw, "m1", relabel)
     _, pods = load_annotations(cocoa_raw / "CocoaMoniliaDataSet")
     assert pods.attrs["label_conflicts"] == 1
-    assert len(pods[pods.image == "IMG_20240227_090000000.jpg"]) == 0
+    assert pods[pods.image == "IMG_20240227_090000000.jpg"].label.tolist() == ["conflicto"]
     summary = prepare(cocoa_raw / "CocoaMoniliaDataSet", tmp_path / "p", max_side=64, crop_size=32)
     assert summary["label_conflicts"] == 1
     saved = json.loads((tmp_path / "p" / "summary.json").read_text())

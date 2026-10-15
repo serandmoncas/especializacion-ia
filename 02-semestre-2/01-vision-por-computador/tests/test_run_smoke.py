@@ -42,3 +42,12 @@ def test_run_smoke_counts_m4(cocoa_raw_large, tmp_path):
     assert saved["datos"] == report["datos"]
     for name in ("clasificador.pt", "detector.pt", "modelos.json"):
         assert (tmp_path / "m" / name).exists()
+
+
+def test_detector_boxes_skip_images_without_pods():
+    import pandas as pd
+
+    run = _load_run()
+    pods = pd.DataFrame({"image": ["a.jpg"], "x1": [0], "y1": [0], "x2": [5], "y2": [5]})
+    names, boxes, skipped = run.images_with_boxes(["a.jpg", "b.jpg"], pods)
+    assert names == ["a.jpg"] and len(boxes) == 1 and skipped == ["b.jpg"]
