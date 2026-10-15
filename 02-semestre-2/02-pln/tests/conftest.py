@@ -136,3 +136,55 @@ def build_oa_world() -> FakeOpenAlex:
 @pytest.fixture
 def oa_world():
     return build_oa_world()
+
+
+class FakeWiki:
+    """Wikipedia en memoria: `pages[título] = {"extract", "links", "langlinks": {lang: título}}`."""
+
+    def __init__(self, pages: dict[str, dict], disambiguation=()):
+        self.pages, self.disambiguation = pages, set(disambiguation)
+
+    def resolve(self, titles):
+        return {t: t if t in self.pages and t not in self.disambiguation else None for t in titles}
+
+    def extracts(self, titles):
+        return {t: self.pages.get(t, {}).get("extract", "") for t in titles}
+
+    def links(self, title):
+        return list(self.pages.get(title, {}).get("links", []))
+
+    def langlinks(self, titles, target):
+        return {t: self.pages.get(t, {}).get("langlinks", {}).get(target) for t in titles}
+
+    def search(self, query, limit=5):
+        return [t for t in self.pages if query.lower() in t.lower()][:limit]
+
+
+def build_wiki_world() -> FakeWiki:
+    pages = {
+        "Aprendizaje por refuerzo": {
+            "extract": "El aprendizaje por refuerzo estudia agentes que aprenden por recompensa.",
+            "links": ["Proceso de decisión de Markov", "Probabilidad", "Programación dinámica",
+                      "Estados Unidos", "Recompensa"],
+        },
+        "Proceso de decisión de Markov": {
+            "extract": "Un proceso de decisión de Markov modela decisiones con probabilidad.",
+            "links": ["Probabilidad", "Aprendizaje por refuerzo"],
+            "langlinks": {"en": "Markov decision process"},
+        },
+        "Probabilidad": {"extract": "La probabilidad mide la incertidumbre.", "links": []},
+        "Programación dinámica": {
+            "extract": "La programación dinámica resuelve problemas por subproblemas.",
+            "links": ["Aprendizaje por refuerzo"],
+        },
+        "Estados Unidos": {"extract": "", "links": []},
+        "Recompensa": {"extract": "La recompensa es la señal que guía al agente.", "links": []},
+        "Mercurio": {"extract": "Mercurio puede referirse a…", "links": ["Mercurio (planeta)"]},
+        "Mercurio (planeta)": {"extract": "Planeta.", "links": []},
+    }  # fmt: skip
+    return FakeWiki(pages, disambiguation={"Mercurio"})
+
+
+@pytest.fixture
+def wiki_world():
+    return build_wiki_world()

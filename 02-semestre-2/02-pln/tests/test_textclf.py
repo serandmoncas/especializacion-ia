@@ -75,3 +75,11 @@ def test_save_and_load_give_identical_predictions(data, tmp_path):
     np.testing.assert_allclose(
         predict_proba(model2, tok2, va, vb, max_length=64), before, atol=1e-6
     )
+
+
+def test_max_length_is_capped_by_the_tokenizer(data):
+    (a, b, _), _ = data
+    model, tok = tiny_model(a + b)  # 64 tokens como máximo (80 posiciones)
+    long_text = " ".join(["gato perro"] * 200)
+    p = predict_proba(model, tok, [long_text], [long_text], max_length=256)
+    assert p.shape == (1,)

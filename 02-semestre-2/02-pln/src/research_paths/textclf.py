@@ -83,6 +83,8 @@ def load_pretrained(name: str, num_labels: int = 2):
 
 
 def _encode(tokenizer, texts_a, texts_b, max_length: int, device: str):
+    # Nunca más largo de lo que el modelo admite (p. ej. 64 en el modelo diminuto, 512 en XLM-R).
+    max_length = min(max_length, tokenizer.model_max_length)
     enc = tokenizer(
         list(texts_a),
         list(texts_b) if texts_b is not None else None,
